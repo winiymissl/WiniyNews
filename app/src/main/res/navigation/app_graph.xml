@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.winiynews.ui.fragment.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_lifeFragment"
+            app:destination="@id/lifeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_idCardIdentifyFragment"
+            app:destination="@id/idCardIdentifyFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_beautyFragment"
+            app:destination="@id/beautyFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_foodHeatFragment"
+            app:destination="@id/foodHeatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lifeFragment"
+        android:name="com.example.winiynews.ui.fragment.LifeFragment"
+        android:label="fragment_lfie"
+        tools:layout="@layout/fragment_life" />
+    <fragment
+        android:id="@+id/idCardIdentifyFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.IdCardIdentifyFragment"
+        android:label="IdCardIdentifyFragment" />
+    <fragment
+        android:id="@+id/beautyFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.BeautyFragment"
+        android:label="fragment_beauty"
+        tools:layout="@layout/fragment_beauty" />
+    <fragment
+        android:id="@+id/foodHeatFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.FoodHeatFragment"
+        android:label="FoodHeatFragment" />
+</navigation>

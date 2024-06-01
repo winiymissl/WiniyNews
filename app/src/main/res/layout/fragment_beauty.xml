@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_beauty"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    tools:context=".ui.fragment.feature.BeautyFragment">
+
+    <com.classic.common.MultipleStatusView
+        android:id="@+id/MultipleStatusView_beauty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="48dp"
+
+        app:emptyView="@layout/empty_view"
+        app:errorView="@layout/error_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:loadingView="@layout/loading_view"
+        app:noNetworkView="@layout/no_network_view">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_beauty"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.classic.common.MultipleStatusView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/botton_again"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/recycle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
