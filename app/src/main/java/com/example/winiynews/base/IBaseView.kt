@@ -8,5 +8,4 @@ package com.example.winiynews.base
 interface IBaseView {
     fun showLoading()
     fun dismissLoading()
-
 }

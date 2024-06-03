@@ -44,7 +44,7 @@ class MyOnItemTouchListener(
                 mListener.onItemClick(childView, rv.getChildAdapterPosition(childView))
                 return true
             }
-            return true
+            return false
         }
 
         override fun onLongPress(e: MotionEvent) {

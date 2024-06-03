@@ -20,10 +20,14 @@ class RecipeSearchRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
 //            list.add(item)
 //            notifyItemInserted(list.indexOf(item))
 //        }
+        list.clear()
         list.addAll(data)
         notifyDataSetChanged()
     }
 
+    fun getData(): MutableList<ItemSearchData> {
+        return list
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemRecyclerviewRecipeSearchBinding.bind(
             LayoutInflater.from(parent.context)
@@ -38,6 +42,7 @@ class RecipeSearchRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as SearchViewHolder).bindTo(list[position], position)
+
     }
 
     class SearchViewHolder(val binding: ItemRecyclerviewRecipeSearchBinding) :
@@ -49,6 +54,7 @@ class RecipeSearchRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
 //            binding.chipRecipeTime.text = item.ingredient.toString()
             binding.textViewRecipeName.text = item.name
         }
+
     }
 }
 

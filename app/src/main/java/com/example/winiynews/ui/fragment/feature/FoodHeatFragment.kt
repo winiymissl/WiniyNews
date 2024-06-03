@@ -132,7 +132,6 @@ class FoodHeatFragment : BaseFragment(), SearchFoodHeatContract.View {
                         }
 
                         override fun onLongItemClick(view: View?, position: Int) {
-                            TODO("Not yet implemented")
                         }
                     })
             )

@@ -39,10 +39,10 @@ abstract class BaseFragment() : Fragment(), EasyPermissions.PermissionCallbacks 
         initView()
         lazyLoadDataIfPrepared()
         //多种状态切换的view 重试点击事件
-        mLayoutStatusView?.setOnRetryClickListener(mRetryClickListener)
-        mLayoutStatusView?.setOnViewStatusChangeListener(MultipleStatusView.OnViewStatusChangeListener { oldViewStatus, newViewStatus ->
-
-        })
+//        mLayoutStatusView?.setOnRetryClickListener(mRetryClickListener)
+//        mLayoutStatusView?.setOnViewStatusChangeListener(MultipleStatusView.OnViewStatusChangeListener { oldViewStatus, newViewStatus ->
+//
+//        })
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {

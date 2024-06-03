@@ -6,7 +6,6 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.SharedElementCallback
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -66,16 +65,7 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }
-        setEnterSharedElementCallback(object : SharedElementCallback() {
-            override fun onSharedElementEnd(
-                sharedElementNames: MutableList<String>?,
-                sharedElements: MutableList<View>?,
-                sharedElementSnapshots: MutableList<View>?
-            ) {
-                super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots)
-                mLayoutStatusView?.showContent()
-            }
-        })
+
         binding.searchView.apply {
             this.setupWithSearchBar(binding.searchBar)
             this.editText.setOnEditorActionListener { _, _, event ->
@@ -90,19 +80,19 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
             }
         }
 
+
     }
 
     override fun lazyLoad() {
     }
 
     override fun setRecipeCategoryData(data: RecipeCategoryBean) {
-
+        mLayoutStatusView?.showContent()
         val adapter = RecipeCategoryRecyclerviewAdapter()
         var temp: MutableList<String> = mutableListOf()
         data.data.forEach {
             temp.add(it.name)
         }
-        Logger.d(data.data)
         binding.recyclerViewCategory.apply {
             this.itemAnimator = ScaleInAnimator()
             this.layoutManager = GridLayoutManager(this@RecipeFragment.context, 2)
@@ -112,36 +102,30 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
     }
 
     override fun setSearchRecipeData(data: SearchRecipeBean) {
-
+        mLayoutStatusView?.showContent()
         val adapter = RecipeSearchRecyclerviewAdapter()
         var temp: MutableList<ItemSearchData> = mutableListOf()
         data.data.list.forEach {
             temp.add(ItemSearchData(it.cover, it.desc, it.id, it.ingredient, it.name))
         }
+        Logger.d(data.data.list)
         binding.searchResultsRecyclerView.apply {
-            this.itemAnimator = ScaleInAnimator()
-            this.layoutManager = GridLayoutManager(this@RecipeFragment.context, 2)
-
-
-
-
-
-
-
+            this.layoutManager = GridLayoutManager(this@RecipeFragment.context, 1)
             addOnItemTouchListener(
                 MyOnItemTouchListener(this@RecipeFragment.context,
-                    this,
+                    binding.searchResultsRecyclerView,
                     object : MyOnItemTouchListener.OnItemClickListener {
                         override fun onItemClick(view: View?, position: Int) {
                             val temp: ArrayList<String> = arrayListOf()
-                            data.data.list[position].ingredient.forEach {
+                            (this@apply.adapter as RecipeSearchRecyclerviewAdapter).getData()
+                                .forEach {
                                 temp.add(it.name)
                             }
+                            Logger.d(data.data.list)
                             NavHostFragment.findNavController(this@RecipeFragment)
-                                .navigate(R.id.recipeFragment, Bundle().apply {
+                                .navigate(R.id.ingredientBottomSheet, Bundle().apply {
                                     putStringArrayList(
-                                        "recipeData",
-                                        temp
+                                        "recipeData", temp
                                     )
                                 })
                         }
@@ -151,13 +135,13 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
                              * 长按的操作*/
                             /**
                              * 长按的操作*/
+
                         }
                     })
             )
             this.adapter = adapter
         }
         adapter.submitList(temp)
-        mLayoutStatusView?.showContent()
     }
 
     override fun showError(msg: String, errorCode: Int) {
@@ -168,12 +152,14 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
         }
     }
 
-
     override fun showLoading() {
         mLayoutStatusView?.showLoading()
     }
 
     override fun dismissLoading() {
     }
-
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
+    }
 }

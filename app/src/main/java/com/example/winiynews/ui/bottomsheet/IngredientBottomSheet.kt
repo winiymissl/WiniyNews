@@ -15,15 +15,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  */
 class IngredientBottomSheet : BottomSheetDialogFragment() {
     lateinit var binding: BottomsheetFragmentSearchRecipeBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(
             R.layout.bottomsheet_fragment_search_recipe,
             container,
@@ -35,10 +32,9 @@ class IngredientBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        var list = ArrayList<String>()
-
         arguments?.apply {
-            binding.textViewFoodHeatDetail.text = getStringArrayList("recipeData")?.toString()
+            binding.textViewFoodHeatDetail.text =
+                "ingredient " + getStringArrayList("recipeData")?.toString()
         }
     }
 }
