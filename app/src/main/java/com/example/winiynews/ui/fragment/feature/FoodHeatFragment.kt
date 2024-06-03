@@ -1,11 +1,13 @@
 package com.example.winiynews.ui.fragment.feature
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.winiynews.R
 import com.example.winiynews.adapter.ItemSearchResult
@@ -16,7 +18,9 @@ import com.example.winiynews.databinding.FragmentFoodheatSearchBinding
 import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.SearchFoodHeatContract
 import com.example.winiynews.mvp.presenter.SearchFoodHeatPresenter
+import com.example.winiynews.utils.MyOnItemTouchListener
 import com.google.android.material.transition.MaterialContainerTransform
+
 
 /**
  * @Author winiymissl
@@ -26,11 +30,15 @@ import com.google.android.material.transition.MaterialContainerTransform
 class FoodHeatFragment : BaseFragment(), SearchFoodHeatContract.View {
     private lateinit var binding: FragmentFoodheatSearchBinding
     private val mPresenter by lazy { SearchFoodHeatPresenter() }
-
+    private var page: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = 800
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(Color.TRANSPARENT)
+        }
     }
 
     override fun onCreateView(
@@ -57,10 +65,13 @@ class FoodHeatFragment : BaseFragment(), SearchFoodHeatContract.View {
         false
         }*/
         mPresenter.attachView(this)
-        binding.searchView.setupWithSearchBar(binding.searchBar)
-        /**
-         * 这里出现过多次点击的bug
-         */
+
+
+        binding.searchView.apply {
+            setupWithSearchBar(binding.searchBar)
+            /**
+             * 这里出现过多次点击的bug
+             */
 //        binding.searchView.editText.setOnEditorActionListener(object :
 //            TextView.OnEditorActionListener {
 //            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -76,12 +87,55 @@ class FoodHeatFragment : BaseFragment(), SearchFoodHeatContract.View {
 //            mPresenter.requestFoodHeatData(binding.searchView.editText.text.toString(), 1)
 //            true
 //        })
-        binding.searchView.editText.setOnEditorActionListener { _, _, event ->
-            if (KeyEvent.KEYCODE_ENTER == event?.keyCode && event.action == KeyEvent.ACTION_DOWN) {
-                mPresenter.requestFoodHeatData(binding.searchView.editText.text.toString(), 1)
-                true
+            editText.setOnEditorActionListener { _, _, event ->
+                if (KeyEvent.KEYCODE_ENTER == event?.keyCode && event.action == KeyEvent.ACTION_DOWN) {
+                    page = 1
+                    mPresenter.requestFoodHeatData(
+                        binding.searchView.editText.text.toString(), page
+                    )
+                    true
+                }
+                false
             }
-            false
+        }
+
+
+        /*    binding.searchResultsRecyclerView.addOnScrollListener(object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
+                    val lastVisibleItemPosition = layoutManager!!.findLastVisibleItemPosition()
+                    val totalItemCount = layoutManager!!.itemCount
+                    // 判断是否滚动到列表底部
+                    if (lastVisibleItemPosition == totalItemCount - 1) {
+                        // 加载更多数据
+    //                    mPresenter.requestFoodHeatData(
+    //                        binding.searchView.editText.text.toString(), ++page
+    //                    )
+                        Logger.d(page)
+                    }
+                }
+            })*/
+
+        binding.searchResultsRecyclerView.apply {
+            addOnItemTouchListener(
+                MyOnItemTouchListener(this@FoodHeatFragment.context,
+                    this,
+                    object : MyOnItemTouchListener.OnItemClickListener {
+                        override fun onItemClick(view: View?, position: Int) {
+                            var adapterNow = adapter as SearchFoodResultAdapter
+                            NavHostFragment.findNavController(this@FoodHeatFragment)
+                                .navigate(R.id.foodHeatDetailBottomSheet, Bundle().apply {
+                                    putString("foodId", adapterNow.getData()[position].foodId)
+                                })
+                        }
+
+                        override fun onLongItemClick(view: View?, position: Int) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+            )
         }
     }
 

@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_homeFragment_to_foodHeatFragment"
             app:destination="@id/foodHeatFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/lifeFragment"
@@ -39,5 +42,25 @@
     <fragment
         android:id="@+id/foodHeatFragment"
         android:name="com.example.winiynews.ui.fragment.feature.FoodHeatFragment"
-        android:label="FoodHeatFragment" />
+        android:label="FoodHeatFragment" >
+        <action
+            android:id="@+id/action_foodHeatFragment_to_foodHeatDetailBottomSheet"
+            app:destination="@id/foodHeatDetailBottomSheet" />
+    </fragment>
+    <dialog
+        android:id="@+id/foodHeatDetailBottomSheet"
+        android:name="com.example.winiynews.ui.bottomsheet.FoodHeatDetailBottomSheet"
+        android:label="FoodHeatDetailBottomSheet" />
+    <fragment
+        android:id="@+id/recipeFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.RecipeFragment"
+        android:label="RecipeFragment" >
+        <action
+            android:id="@+id/action_recipeFragment_to_ingredientBottomSheet"
+            app:destination="@id/ingredientBottomSheet" />
+    </fragment>
+    <dialog
+        android:id="@+id/ingredientBottomSheet"
+        android:name="com.example.winiynews.ui.bottomsheet.IngredientBottomSheet"
+        android:label="IngredientBottomSheet" />
 </navigation>

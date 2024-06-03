@@ -47,8 +47,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val list = listOf(
-            ItemHome("身份证验证", R.drawable.ic_home_beauty),
+            ItemHome("菜谱", R.drawable.ic_home_beauty),
             ItemHome("热量查询", R.drawable.ic_home_beauty),
+            ItemHome("身份证验证", R.drawable.ic_home_beauty),
             ItemHome("美女福利", R.drawable.ic_home_beauty),
         )
         val adapter = HomeRecyclerviewAdapter()
@@ -85,7 +86,7 @@ class HomeFragment : Fragment() {
                             if (view is ConstraintLayout) {
                                 Logger.d("view is ConstraintLayout")
                             }
-                            if (position == 0) {
+                            if (position == 2) {
                                 NavHostFragment.findNavController(this@HomeFragment)
                                     .navigate(R.id.idCardIdentifyFragment, Bundle().apply {
                                         putString("transitionName", view.transitionName)
@@ -95,12 +96,17 @@ class HomeFragment : Fragment() {
                                     .navigate(R.id.foodHeatFragment, Bundle().apply {
                                         putString("transitionName", view.transitionName)
                                     }, null, extras)
-                            } else if (position == 2) {
+                            } else if (position == 3) {
                                 NavHostFragment.findNavController(this@HomeFragment)
                                     .navigate(R.id.beautyFragment, Bundle().apply {
                                         putString("transitionName", view.transitionName)
                                     }, null, extras)
 
+                            } else if (position == 0) {
+                                NavHostFragment.findNavController(this@HomeFragment)
+                                    .navigate(R.id.recipeFragment, Bundle().apply {
+                                        putString("transitionName", view.transitionName)
+                                    }, null, extras)
                             }
                         }
 

@@ -14,7 +14,9 @@ import com.example.winiynews.databinding.ItemRecyclerviewSearchFoodBinding
  */
 class SearchFoodResultAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var list: MutableList<ItemSearchResult> = mutableListOf()
-
+    fun getData(): MutableList<ItemSearchResult> {
+        return list
+    }
     companion object {
         object Comparator : DiffUtil.ItemCallback<ItemSearchResult>() {
             override fun areItemsTheSame(

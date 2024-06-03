@@ -1,5 +1,6 @@
 package com.example.winiynews.ui.fragment.feature
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,6 @@ import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.FullScreenCarouselStrategy
 import com.google.android.material.transition.MaterialContainerTransform
-import com.orhanobut.logger.Logger
 
 
 class BeautyFragment : BaseFragment(), BeautyContract.View {
@@ -29,8 +29,11 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform()
-
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration =1000
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(Color.TRANSPARENT)
+        }
     }
 
     override fun onCreateView(
@@ -43,6 +46,10 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
 
     override fun initView() {
         /**
+         * 将view附着在一起
+         */
+        mPresenter.attachView(this)
+        /**
          * 处理传递的参数
          */
         arguments?.let {
@@ -50,10 +57,7 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
                 binding.constraintBeauty, it.getString("transitionName")
             )
         }
-        /**
-         * 将view附着在一起
-         */
-        mPresenter.attachView(this)
+
         mLayoutStatusView = binding.MultipleStatusViewBeauty
 
         binding.bottonAgain.setOnClickListener {
@@ -72,7 +76,6 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
 
     override fun setBeautyData(bean: BeautyBean) {
         mLayoutStatusView?.showContent()
-        Logger.d(bean)
 
         val adapter = BeautyRecyclerviewAdapter().apply {
             setData(bean.data)

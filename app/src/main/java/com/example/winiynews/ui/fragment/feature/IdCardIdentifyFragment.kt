@@ -1,5 +1,6 @@
 package com.example.winiynews.ui.fragment.feature
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,11 @@ class IdCardIdentifyFragment : BaseFragment(), IdCardContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = 800
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(Color.TRANSPARENT)
+        }
     }
 
     override fun onCreateView(
