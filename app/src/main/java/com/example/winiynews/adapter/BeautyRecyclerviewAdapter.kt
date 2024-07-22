@@ -15,11 +15,10 @@ import com.example.winiynews.databinding.ItemBeautyBinding
  * @Version 1.0
  */
 
-class BeautyRecyclerviewAdapter(listener: OnItemClickListener) :
+class BeautyRecyclerviewAdapter(val mListener: OnItemClickListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    private var mListener: OnItemClickListener? = listener
 
     private var list: List<Data> = mutableListOf()
     fun setData(list: List<Data>) {

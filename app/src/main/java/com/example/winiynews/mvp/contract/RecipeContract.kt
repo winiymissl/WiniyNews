@@ -11,9 +11,12 @@ import com.example.winiynews.bean.RecipeBean.SearchRecipeBean
  */
 interface RecipeContract {
     interface View : IBaseView {
+        fun showRecyclerviewLoading()
+
+        fun showRecyclerviewError(msg: String, errorCode: Int)
+
         fun setRecipeCategoryData(data: RecipeCategoryBean)
         fun setSearchRecipeData(data: SearchRecipeBean)
-
         fun showError(msg: String, errorCode: Int)
     }
 

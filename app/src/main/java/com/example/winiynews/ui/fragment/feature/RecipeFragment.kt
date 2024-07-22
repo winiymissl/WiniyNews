@@ -36,7 +36,6 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
     private var page: String? = "1"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -60,7 +59,7 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
             )
         }
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = 500
+            duration = 400
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }
@@ -101,7 +100,7 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
     }
 
     override fun setSearchRecipeData(data: SearchRecipeBean) {
-        mLayoutStatusView?.showContent()
+        binding.multipleStatusViewCategoryRecyclerView.showContent()
         val adapter = RecipeSearchRecyclerviewAdapter(object :
             RecipeSearchRecyclerviewAdapter.OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
@@ -130,34 +129,6 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
         Logger.d(data.data.list)
         binding.searchResultsRecyclerView.apply {
             this.layoutManager = GridLayoutManager(this@RecipeFragment.context, 1)
-//            addOnItemTouchListener(
-//                MyOnItemTouchListener(this@RecipeFragment.context,
-//                    binding.searchResultsRecyclerView,
-//                    object : MyOnItemTouchListener.OnItemClickListener {
-//                        override fun onItemClick(view: View?, position: Int) {
-//                            val temp: ArrayList<String> = arrayListOf()
-//                            (this@apply.adapter as RecipeSearchRecyclerviewAdapter).getData()
-//                                .forEach {
-//                                temp.add(it.name)
-//                            }
-//                            Logger.d(data.data.list)
-//                            NavHostFragment.findNavController(this@RecipeFragment)
-//                                .navigate(R.id.ingredientBottomSheet, Bundle().apply {
-//                                    putStringArrayList(
-//                                        "recipeData", temp
-//                                    )
-//                                })
-//                        }
-//
-//                        override fun onLongItemClick(view: View?, position: Int) {
-//                            /**
-//                             * 长按的操作*/
-//                            /**
-//                             * 长按的操作*/
-//
-//                        }
-//                    })
-//            )
             this.adapter = adapter
         }
         adapter.submitList(temp)
@@ -173,6 +144,17 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
 
     override fun showLoading() {
         mLayoutStatusView?.showLoading()
+    }
+    override fun showRecyclerviewLoading() {
+        binding.multipleStatusViewCategoryRecyclerView.showLoading()
+    }
+
+    override fun showRecyclerviewError(msg: String, errorCode: Int) {
+        if (errorCode == ErrorStatus.NETWORK_ERROR) {
+            binding.multipleStatusViewCategoryRecyclerView.showNoNetwork()
+        } else {
+            binding.multipleStatusViewCategoryRecyclerView.showError()
+        }
     }
 
     override fun dismissLoading() {

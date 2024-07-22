@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_homeFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_storyFragment"
+            app:destination="@id/storyFragment" />
     </fragment>
     <fragment
         android:id="@+id/lifeFragment"
@@ -63,4 +66,8 @@
         android:id="@+id/ingredientBottomSheet"
         android:name="com.example.winiynews.ui.bottomsheet.IngredientBottomSheet"
         android:label="IngredientBottomSheet" />
+    <fragment
+        android:id="@+id/storyFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.story.StoryFragment"
+        android:label="StoryFragment" />
 </navigation>

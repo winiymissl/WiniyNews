@@ -12,12 +12,13 @@
         android:layout_height="wrap_content"
         android:scaleType="centerInside" />
 
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:id="@+id/item_progress_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminate="false"
         android:layout_gravity="center"
-        android:progress="100"
         android:visibility="gone" />
 </FrameLayout>

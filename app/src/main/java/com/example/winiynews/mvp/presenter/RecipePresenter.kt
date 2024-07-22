@@ -32,7 +32,7 @@ class RecipePresenter : BasePresenter<RecipeContract.View>(), RecipeContract.Pre
 
     override fun requestSearchRecipeData(keyword: String, page: String) {
         checkViewAttached()
-        mRootView?.showLoading()
+        mRootView?.showRecyclerviewLoading()
         model.searchRecipe(keyword, page).subscribe({
             mRootView?.apply {
                 Logger.d(it)
@@ -42,7 +42,10 @@ class RecipePresenter : BasePresenter<RecipeContract.View>(), RecipeContract.Pre
             Logger.d(it)
             mRootView?.apply {
                 dismissLoading()
-                showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                showRecyclerviewError(
+                    ExceptionHandle.handleException(it),
+                    ExceptionHandle.errorCode
+                )
             }
         })
     }

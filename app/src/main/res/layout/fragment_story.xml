@@ -1,6 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinator_layout_foodheat"
+    android:id="@+id/constraintlayout_story"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5">
@@ -46,10 +46,10 @@
                 app:loadingView="@layout/loading_view"
                 app:noNetworkView="@layout/no_network_view">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_results_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_results_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </com.classic.common.MultipleStatusView>
         </com.google.android.material.search.SearchView>
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.navigation.fragment.NavHostFragment
 import com.example.winiynews.R
 import com.example.winiynews.base.BaseFragment
 import com.example.winiynews.bean.IdentifyBean.IdCardIdentifyBean
@@ -29,7 +30,7 @@ class IdCardIdentifyFragment : BaseFragment(), IdCardContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = 500
+            duration = 400
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }
@@ -66,6 +67,9 @@ class IdCardIdentifyFragment : BaseFragment(), IdCardContract.View {
              * 从edit中获取信息
              */
             mPresenter.requestIdCardData(binding.editText.text.toString())
+        }
+        binding.topAppBar.setNavigationOnClickListener {
+            NavHostFragment.findNavController(this).popBackStack()
         }
     }
 

@@ -5,6 +5,7 @@ import com.example.winiynews.bean.FoodHeatBean.SearchFoodHeatBean
 import com.example.winiynews.bean.IdentifyBean.IdCardIdentifyBean
 import com.example.winiynews.bean.RecipeBean.RecipeCategoryBean
 import com.example.winiynews.bean.RecipeBean.SearchRecipeBean
+import com.example.winiynews.bean.StoryBean.StoryCategoryBean
 import com.example.winiynews.bean.beautyBean.BeautyBean
 import com.example.winiynews.constant.HttpConstant
 import io.reactivex.rxjava3.core.Observable
@@ -59,4 +60,10 @@ interface RollAPI {
         @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
         @Query("category_id") category_id: String
     ): Observable<RecipeCategoryBean>
+
+    @GET("api/story/types?")
+    fun getStoryCategory(
+        @Query("app_id") app_id: String = HttpConstant.APPID,
+        @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
+    ): Observable<StoryCategoryBean>
 }

@@ -37,9 +37,18 @@ android {
     }
 }
 dependencies {
+    //smartLayout
+    implementation("androidx.appcompat:appcompat:1.0.0")
+    implementation("io.github.scwang90:refresh-layout-kernel:2.1.0")    //核心必须依赖
+    implementation("io.github.scwang90:refresh-header-classics:2.1.0")    //经典刷新头
+    implementation("io.github.scwang90:refresh-header-radar:2.1.0")       //雷达刷新头
+    implementation("io.github.scwang90:refresh-header-falsify:2.1.0")     //虚拟刷新头
+    implementation("io.github.scwang90:refresh-header-material:2.1.0")    //谷歌刷新头
+    implementation("io.github.scwang90:refresh-header-two-level:2.1.0")   //二级刷新头
+    implementation("io.github.scwang90:refresh-footer-ball:2.1.0")        //球脉冲加载
+    implementation("io.github.scwang90:refresh-footer-classics:2.1.0")    //经典加载
     //toaster
     implementation("com.github.getActivity:Toaster:12.6")
-
     //android-support-skin
     implementation("skin.support:skin-support:4.0.5")    // skin-support
     implementation("skin.support:skin-support-appcompat:4.0.5")     // skin-support 基础控件支持

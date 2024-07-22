@@ -35,7 +35,7 @@ class FoodHeatFragment : BaseFragment(), SearchFoodHeatContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = 500
+            duration = 400
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }
