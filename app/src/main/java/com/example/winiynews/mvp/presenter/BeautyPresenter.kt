@@ -34,4 +34,21 @@ class BeautyPresenter : BasePresenter<BeautyContract.View>(), BeautyContract.Pre
             }
         })
     }
+
+    override fun requestFreshData() {
+        checkViewAttached()
+        mRootView?.showLoading()
+        model.getGirlList().subscribe({
+            mRootView?.apply {
+                dismissLoading()
+                refresh()
+            }
+        }, {
+            Logger.d(it)
+            mRootView?.apply {
+                showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+            }
+        })
+    }
+
 }

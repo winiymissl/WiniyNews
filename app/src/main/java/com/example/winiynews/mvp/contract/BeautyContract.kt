@@ -19,6 +19,8 @@ interface BeautyContract {
          * 显示错误信息
          */
         fun showError(msg: String, errorCode: Int)
+
+        fun refresh()
     }
 
     /**
@@ -29,5 +31,6 @@ interface BeautyContract {
          * 获取girls
          */
         fun requestBeautyData()
+        fun requestFreshData()
     }
 }

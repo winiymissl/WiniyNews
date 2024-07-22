@@ -3,16 +3,15 @@ package com.example.winiynews.ui.activity
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.SkinAppCompatDelegateImpl
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.example.winiynews.R
 import com.example.winiynews.databinding.ActivityMainBinding
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
-import jp.wasabeef.glide.transformations.BlurTransformation
+import pub.devrel.easypermissions.EasyPermissions
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,11 +23,18 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         fullScreen()
-//        Glide.with(this).load(R.drawable.ic_home_beauty)
-//            .apply(RequestOptions.bitmapTransform(BlurTransformation(10, 1)))
-//            .into(binding.imageView)
+        EasyPermissions.requestPermissions(
+            this, "请允许权限", 100, "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE","android.permission.INTERNET"
+        )
+        //        Glide.with(this).load(R.drawable.ic_home_beauty)
+        //            .apply(RequestOptions.bitmapTransform(BlurTransformation(10, 1)))
+        //            .into(binding.imageView)
     }
 
+    override fun getDelegate(): AppCompatDelegate {
+        return SkinAppCompatDelegateImpl.get(this, this);
+    }
     fun fullScreen() {
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController.systemBarsBehavior =

@@ -1,11 +1,13 @@
 package com.example.winiynews.utils
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.winiynews.application.MyApplication
+
 
 /**
  * @Author winiymissl
@@ -36,7 +38,9 @@ fun View.px2dip(pxValue: Float): Int {
     val scale = this.resources.displayMetrics.density
     return (pxValue / scale + 0.5f).toInt()
 }
-
+fun showDioLog(context: Context, data: () -> Unit) {
+    data.invoke()
+}
 fun durationFormat(duration: Long?): String {
     val minute = duration!! / 60
     val second = duration % 60
@@ -69,3 +73,33 @@ fun Context.dataFormat(total: Long): String {
     }
     return result
 }
+
+/**
+ * 检测流量是否连接
+ */
+fun isMobileAndWifiNetworkConnected(context: Context, type: Int): Boolean {
+    if (context != null) {
+        val networkInfo =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = networkInfo.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+        when (type) {
+            ConnectivityManager.TYPE_MOBILE -> {
+                if (activeNetwork != null) {
+                    return activeNetwork.isAvailable
+                }
+            }
+
+            ConnectivityManager.TYPE_WIFI -> {
+                if (activeNetwork != null) {
+                    return activeNetwork.isAvailable
+                }
+            }
+
+            else -> {
+                throw IllegalArgumentException("Invalid type. ConnectivityManager.TYPE_MOBILE or ConnectivityManager.TYPE_WIFI")
+            }
+        }
+    }
+    return false
+}
+

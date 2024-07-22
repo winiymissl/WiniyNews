@@ -20,7 +20,6 @@ import com.example.winiynews.databinding.FragmentRecipeBinding
 import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.RecipeContract
 import com.example.winiynews.mvp.presenter.RecipePresenter
-import com.example.winiynews.utils.MyOnItemTouchListener
 import com.google.android.material.transition.MaterialContainerTransform
 import com.orhanobut.logger.Logger
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
@@ -61,7 +60,7 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
             )
         }
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = 800
+            duration = 500
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }
@@ -103,7 +102,27 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
 
     override fun setSearchRecipeData(data: SearchRecipeBean) {
         mLayoutStatusView?.showContent()
-        val adapter = RecipeSearchRecyclerviewAdapter()
+        val adapter = RecipeSearchRecyclerviewAdapter(object :
+            RecipeSearchRecyclerviewAdapter.OnItemClickListener {
+            override fun onItemClick(view: View?, position: Int) {
+            }
+
+            override fun onLongItemClick(view: View?, position: Int): Boolean {
+                val temp: ArrayList<String> = arrayListOf()
+                data.data.list
+                    .forEach {
+                        temp.add(it.name)
+                    }
+                Logger.d(data.data.list)
+                NavHostFragment.findNavController(this@RecipeFragment)
+                    .navigate(R.id.ingredientBottomSheet, Bundle().apply {
+                        putStringArrayList(
+                            "recipeData", temp
+                        )
+                    })
+                return true
+            }
+        })
         var temp: MutableList<ItemSearchData> = mutableListOf()
         data.data.list.forEach {
             temp.add(ItemSearchData(it.cover, it.desc, it.id, it.ingredient, it.name))
@@ -111,34 +130,34 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
         Logger.d(data.data.list)
         binding.searchResultsRecyclerView.apply {
             this.layoutManager = GridLayoutManager(this@RecipeFragment.context, 1)
-            addOnItemTouchListener(
-                MyOnItemTouchListener(this@RecipeFragment.context,
-                    binding.searchResultsRecyclerView,
-                    object : MyOnItemTouchListener.OnItemClickListener {
-                        override fun onItemClick(view: View?, position: Int) {
-                            val temp: ArrayList<String> = arrayListOf()
-                            (this@apply.adapter as RecipeSearchRecyclerviewAdapter).getData()
-                                .forEach {
-                                temp.add(it.name)
-                            }
-                            Logger.d(data.data.list)
-                            NavHostFragment.findNavController(this@RecipeFragment)
-                                .navigate(R.id.ingredientBottomSheet, Bundle().apply {
-                                    putStringArrayList(
-                                        "recipeData", temp
-                                    )
-                                })
-                        }
-
-                        override fun onLongItemClick(view: View?, position: Int) {
-                            /**
-                             * 长按的操作*/
-                            /**
-                             * 长按的操作*/
-
-                        }
-                    })
-            )
+//            addOnItemTouchListener(
+//                MyOnItemTouchListener(this@RecipeFragment.context,
+//                    binding.searchResultsRecyclerView,
+//                    object : MyOnItemTouchListener.OnItemClickListener {
+//                        override fun onItemClick(view: View?, position: Int) {
+//                            val temp: ArrayList<String> = arrayListOf()
+//                            (this@apply.adapter as RecipeSearchRecyclerviewAdapter).getData()
+//                                .forEach {
+//                                temp.add(it.name)
+//                            }
+//                            Logger.d(data.data.list)
+//                            NavHostFragment.findNavController(this@RecipeFragment)
+//                                .navigate(R.id.ingredientBottomSheet, Bundle().apply {
+//                                    putStringArrayList(
+//                                        "recipeData", temp
+//                                    )
+//                                })
+//                        }
+//
+//                        override fun onLongItemClick(view: View?, position: Int) {
+//                            /**
+//                             * 长按的操作*/
+//                            /**
+//                             * 长按的操作*/
+//
+//                        }
+//                    })
+//            )
             this.adapter = adapter
         }
         adapter.submitList(temp)

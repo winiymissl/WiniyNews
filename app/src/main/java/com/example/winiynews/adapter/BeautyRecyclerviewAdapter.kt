@@ -15,30 +15,56 @@ import com.example.winiynews.databinding.ItemBeautyBinding
  * @Version 1.0
  */
 
-class BeautyRecyclerviewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private lateinit var list: List<Data>
+class BeautyRecyclerviewAdapter(listener: OnItemClickListener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+
+    private var mListener: OnItemClickListener? = listener
+
+    private var list: List<Data> = mutableListOf()
     fun setData(list: List<Data>) {
         this.list = list
     }
-
+    fun getList(): List<Data> {
+        return list
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.item_beauty, parent, false)
         val binding = ItemBeautyBinding.bind(view)
-        return BeautyViewHolder(binding)
+        val holder = BeautyViewHolder(binding)
+        binding.root.setOnLongClickListener(RV_listener())
+        binding.root.setOnClickListener(RV_listener())
+        return holder
     }
 
     override fun getItemCount(): Int {
-        if (list == null) {
-            return 0
-        }
         return list.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BeautyViewHolder) {
             holder.bindTo(list[position])
+            holder.itemView.id = position
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(view: View?, position: Int)
+        fun onLongItemClick(view: View?, position: Int): Boolean
+    }
+
+    inner class RV_listener : View.OnClickListener, View.OnLongClickListener {
+        override fun onClick(v: View?) {
+            v?.let { mListener?.onItemClick(v, v.id) }
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            v?.let {
+                return mListener?.onLongItemClick(v, v.id) ?: false
+            }
+            return false
         }
     }
 

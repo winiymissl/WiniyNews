@@ -29,7 +29,7 @@ class IdCardIdentifyFragment : BaseFragment(), IdCardContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = 800
+            duration = 500
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }

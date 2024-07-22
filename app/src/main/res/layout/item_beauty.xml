@@ -1,16 +1,23 @@
-<com.google.android.material.carousel.MaskableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/carousel_item_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:clickable="true"
-    android:foreground="?attr/selectableItemBackground"
-    app:shapeAppearance="?attr/shapeAppearanceCornerSmall">
+    android:focusable="true">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/carousel_image_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
-</com.google.android.material.carousel.MaskableFrameLayout>
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/item_progress_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:progress="100"
+        android:visibility="gone" />
+</FrameLayout>

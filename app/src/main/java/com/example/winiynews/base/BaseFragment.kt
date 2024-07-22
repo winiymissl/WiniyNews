@@ -3,11 +3,11 @@ package com.example.winiynews.base
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import com.classic.common.MultipleStatusView
+import com.hjq.toast.Toaster
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -33,11 +33,20 @@ abstract class BaseFragment() : Fragment(), EasyPermissions.PermissionCallbacks 
      */
     protected var mLayoutStatusView: MultipleStatusView? = null
 
+    /**
+     * view 是否初始化过了，也就是在onCreateView该方法中进行初始化
+     */
+    private var isRootViewInit = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        isViewPrepare = true
-        initView()
-        lazyLoadDataIfPrepared()
+        if (!isRootViewInit) {
+            super.onViewCreated(view, savedInstanceState)
+            isViewPrepare = true
+            initView()
+            lazyLoadDataIfPrepared()
+            isRootViewInit = true
+        }
         //多种状态切换的view 重试点击事件
 //        mLayoutStatusView?.setOnRetryClickListener(mRetryClickListener)
 //        mLayoutStatusView?.setOnViewStatusChangeListener(MultipleStatusView.OnViewStatusChangeListener { oldViewStatus, newViewStatus ->
@@ -52,9 +61,7 @@ abstract class BaseFragment() : Fragment(), EasyPermissions.PermissionCallbacks 
         }
     }
 
-    open val mRetryClickListener: View.OnClickListener = View.OnClickListener {
-        lazyLoad()
-    }
+    open var mRetryClickListener: View.OnClickListener = View.OnClickListener { lazyLoad() }
 
     private fun lazyLoadDataIfPrepared() {
         if (userVisibleHint && isViewPrepare && !hasLoadData) {
@@ -127,7 +134,8 @@ abstract class BaseFragment() : Fragment(), EasyPermissions.PermissionCallbacks 
         sb.replace(sb.length - 2, sb.length, "")
         //用户点击拒绝并不在询问时候调用
         if (EasyPermissions.somePermissionPermanentlyDenied(this, p1)) {
-            Toast.makeText(activity, "已拒绝权限" + sb + "并不再询问", Toast.LENGTH_SHORT).show()
+            Toaster.show("已拒绝权限" + sb + "并不再询问")
+//            Toast.makeText(activity, , Toast.LENGTH_SHORT).show()
             AppSettingsDialog.Builder(this)
                 .setRationale("此功能需要" + sb + "权限，否则无法正常使用，是否打开设置")
                 .setPositiveButton("好").setNegativeButton("不行").build().show()

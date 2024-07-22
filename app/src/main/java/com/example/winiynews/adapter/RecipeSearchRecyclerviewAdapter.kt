@@ -1,6 +1,7 @@
 package com.example.winiynews.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,7 +14,13 @@ import com.example.winiynews.databinding.ItemRecyclerviewRecipeSearchBinding
  * @Date 2024-06-03 14:32
  * @Version 1.0
  */
-class RecipeSearchRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecipeSearchRecyclerviewAdapter(val mListener: OnItemClickListener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(view: View?, position: Int)
+        fun onLongItemClick(view: View?, position: Int): Boolean
+    }
     private val list: MutableList<ItemSearchData> = mutableListOf()
     fun submitList(data: List<ItemSearchData>) {
 //        for (item in data) {
@@ -33,15 +40,32 @@ class RecipeSearchRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_recyclerview_recipe_search, parent, false)
         )
-        return SearchViewHolder(binding)
+        val holder = SearchViewHolder(binding)
+        val rvListener = RV_listener()
+        holder.itemView.setOnLongClickListener(rvListener)
+        holder.itemView.setOnClickListener(rvListener)
+        return holder
     }
 
+    inner class RV_listener : View.OnClickListener, View.OnLongClickListener {
+        override fun onClick(v: View?) {
+            v?.let { mListener?.onItemClick(v, v.id) }
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            v?.let {
+                return mListener?.onLongItemClick(v, v.id) ?: false
+            }
+            return false
+        }
+    }
     override fun getItemCount(): Int {
         return list.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as SearchViewHolder).bindTo(list[position], position)
+        holder.itemView.id = position
 
     }
 

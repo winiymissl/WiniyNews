@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.winiynews.R
 import com.example.winiynews.adapter.HomeRecyclerviewAdapter
@@ -66,8 +65,8 @@ class HomeFragment : Fragment() {
             /**
              * 绘制布局
              */
-            this.layoutManager = LinearLayoutManager(
-                this@HomeFragment.context, GridLayoutManager.HORIZONTAL, false
+            this.layoutManager = GridLayoutManager(
+                this@HomeFragment.context, 2
             )
             /**
              * 事件监听

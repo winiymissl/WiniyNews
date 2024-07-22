@@ -1,11 +1,14 @@
 package com.example.winiynews.ui.fragment.feature
 
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.winiynews.R
 import com.example.winiynews.adapter.BeautyRecyclerviewAdapter
 import com.example.winiynews.base.BaseFragment
@@ -14,33 +17,39 @@ import com.example.winiynews.databinding.FragmentBeautyBinding
 import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.BeautyContract
 import com.example.winiynews.mvp.presenter.BeautyPresenter
-import com.google.android.material.carousel.CarouselLayoutManager
-import com.google.android.material.carousel.CarouselSnapHelper
-import com.google.android.material.carousel.FullScreenCarouselStrategy
+import com.example.winiynews.service.ImageDownloadAndSaveWithProgress
+import com.example.winiynews.utils.showDioLog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
+import com.orhanobut.logger.Logger
 
 
 class BeautyFragment : BaseFragment(), BeautyContract.View {
     private lateinit var binding: FragmentBeautyBinding
     private val mPresenter by lazy { BeautyPresenter() }
-
-    override fun getLayoutId(): Int = R.layout.fragment_beauty
+    private var rootView: View? = null
+    override fun getLayoutId(): Int = com.example.winiynews.R.layout.fragment_beauty
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration =1000
+            duration = 500
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }
+
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_beauty, container, false)
-        binding = FragmentBeautyBinding.bind(view)
+        if (rootView == null) {
+            rootView =
+                inflater.inflate(com.example.winiynews.R.layout.fragment_beauty, container, false)
+        }
+        binding = FragmentBeautyBinding.bind(rootView!!)
         return binding.root
     }
 
@@ -63,12 +72,14 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
         binding.bottonAgain.setOnClickListener {
             mPresenter.requestBeautyData()
         }
+        binding.bottonDownload.setOnClickListener {
+            NavHostFragment.findNavController(this)
+        }
     }
 
     override fun lazyLoad() {
         mPresenter.requestBeautyData()
     }
-
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.detachView()
@@ -76,19 +87,57 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
 
     override fun setBeautyData(bean: BeautyBean) {
         mLayoutStatusView?.showContent()
+//        oldBean = bean
+        val adapter =
+            BeautyRecyclerviewAdapter(object : BeautyRecyclerviewAdapter.OnItemClickListener {
 
-        val adapter = BeautyRecyclerviewAdapter().apply {
-            setData(bean.data)
-            notifyDataSetChanged()
-        }
+                override fun onItemClick(view: View?, position: Int) {
+                    Logger.d("正在点击$position")
+                }
+
+                override fun onLongItemClick(view: View?, position: Int): Boolean {
+                    Logger.d("正在长按$position")
+                    showDioLog(this@BeautyFragment.requireContext()) {
+                        val builder =
+                            MaterialAlertDialogBuilder(this@BeautyFragment.requireContext())
+                        builder.setTitle("提示").setMessage("是否下载?")
+                        builder.setNeutralButton(
+                            "取消"
+                        ) { dialog: DialogInterface?, which: Int -> }
+                        builder.setPositiveButton(
+                            "下载"
+                        ) { dialog: DialogInterface?, which: Int ->
+                            if (activity != null && view != null) {
+                                ImageDownloadAndSaveWithProgress.downloadAndSaveImage(
+                                    activity!!,
+                                    bean.data[position].imageUrl,
+                                    binding.recyclerviewBeauty.getChildViewHolder(view).itemView.findViewById(
+                                        R.id.item_progress_indicator
+                                    )
+                                )
+                            }
+//                                    downloadService?.startDownload(
+//                                        adapter.getList()[position].imageUrl,
+//                                        adapter.getList()[position].imageFileLength.toString()
+//                                    )
+                            dialog?.dismiss()
+                        }
+                        val dialog = builder.create()
+                        dialog.show()
+                    }
+                    return true
+                }
+            }).apply {
+                setData(bean.data)
+            }
+
         binding.recyclerviewBeauty.apply {
-            CarouselSnapHelper().attachToRecyclerView(binding.recyclerviewBeauty)
-            this.layoutManager = CarouselLayoutManager(
-                FullScreenCarouselStrategy(), CarouselLayoutManager.HORIZONTAL
-            )
+            this.layoutManager = GridLayoutManager(this@BeautyFragment.context, 1)
             this.adapter = adapter
+            adapter.notifyDataSetChanged()
         }
     }
+
 
     override fun showError(msg: String, errorCode: Int) {
         if (errorCode == ErrorStatus.NETWORK_ERROR) {
@@ -96,6 +145,11 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
         } else {
             mLayoutStatusView?.showError()
         }
+    }
+
+    override fun refresh() {
+        mLayoutStatusView?.showContent()
+//        oldBean = bean
     }
 
     override fun showLoading() {
