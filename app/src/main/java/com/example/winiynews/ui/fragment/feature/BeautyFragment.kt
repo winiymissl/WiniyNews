@@ -24,12 +24,11 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.orhanobut.logger.Logger
 
 
-class BeautyFragment : BaseFragment(), BeautyContract.View {
+class BeautyFragment<T> : BaseFragment(), BeautyContract.View {
     private lateinit var binding: FragmentBeautyBinding
     private val mPresenter by lazy { BeautyPresenter() }
     private var rootView: View? = null
-    override fun getLayoutId(): Int = com.example.winiynews.R.layout.fragment_beauty
-
+    override fun getLayoutId(): Int = R.layout.fragment_beauty
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +37,14 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }
+        /**
+        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        }
+        val supervisorScope = CoroutineScope(SupervisorJob() + exceptionHandler)
+        with(supervisorScope) {
+        launch {}
+        }*/
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -74,6 +79,12 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
         binding.bottonDownload.setOnClickListener {
             NavHostFragment.findNavController(this)
         }
+//        binding.refreshlayoutBeauty.setOnRefreshListener { layout ->
+//
+//        }
+//        binding.refreshlayoutBeauty.setOnLoadMoreListener { layout ->
+//
+//        }
     }
 
     override fun lazyLoad() {
@@ -86,7 +97,6 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
 
     override fun setBeautyData(bean: BeautyBean) {
         mLayoutStatusView?.showContent()
-//        oldBean = bean
         val adapter =
             BeautyRecyclerviewAdapter(object : BeautyRecyclerviewAdapter.OnItemClickListener {
 
@@ -115,10 +125,6 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
                                     )
                                 )
                             }
-//                                    downloadService?.startDownload(
-//                                        adapter.getList()[position].imageUrl,
-//                                        adapter.getList()[position].imageFileLength.toString()
-//                                    )
                             dialog?.dismiss()
                         }
                         val dialog = builder.create()
@@ -148,7 +154,6 @@ class BeautyFragment : BaseFragment(), BeautyContract.View {
 
     override fun refresh() {
         mLayoutStatusView?.showContent()
-//        oldBean = bean
     }
 
     override fun showLoading() {

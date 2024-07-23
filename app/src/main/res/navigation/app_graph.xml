@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_homeFragment_to_storyFragment"
             app:destination="@id/storyFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_jokeDailyFragment"
+            app:destination="@id/jokeDailyFragment" />
     </fragment>
     <fragment
         android:id="@+id/lifeFragment"
@@ -70,4 +73,8 @@
         android:id="@+id/storyFragment"
         android:name="com.example.winiynews.ui.fragment.feature.story.StoryFragment"
         android:label="StoryFragment" />
+    <fragment
+        android:id="@+id/jokeDailyFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.JokeDailyFragment"
+        android:label="JokeDailyFragment" />
 </navigation>

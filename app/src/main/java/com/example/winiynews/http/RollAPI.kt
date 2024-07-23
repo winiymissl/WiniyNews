@@ -5,6 +5,7 @@ import com.example.winiynews.bean.FoodHeatBean.SearchFoodHeatBean
 import com.example.winiynews.bean.IdentifyBean.IdCardIdentifyBean
 import com.example.winiynews.bean.RecipeBean.RecipeCategoryBean
 import com.example.winiynews.bean.RecipeBean.SearchRecipeBean
+import com.example.winiynews.bean.SentenceBean.JokeBean
 import com.example.winiynews.bean.StoryBean.StoryCategoryBean
 import com.example.winiynews.bean.beautyBean.BeautyBean
 import com.example.winiynews.constant.HttpConstant
@@ -66,4 +67,13 @@ interface RollAPI {
         @Query("app_id") app_id: String = HttpConstant.APPID,
         @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
     ): Observable<StoryCategoryBean>
+
+    /**
+     * 使用协程
+     */
+    @GET("api/jokes/list/random?")
+    suspend fun getJokeList(
+        @Query("app_id") app_id: String = HttpConstant.APPID,
+        @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
+    ): JokeBean
 }

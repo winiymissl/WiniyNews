@@ -50,6 +50,7 @@ class HomeFragment : Fragment() {
             ItemHome("身份证验证", R.drawable.ic_home_beauty),
             ItemHome("美女福利", R.drawable.ic_home_beauty),
             ItemHome("故事会", R.drawable.ic_home_beauty),
+            ItemHome("每日joke", R.drawable.ic_home_beauty),
         )
         val adapter = HomeRecyclerviewAdapter(object : HomeRecyclerviewAdapter.OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
@@ -87,6 +88,11 @@ class HomeFragment : Fragment() {
                 } else if (position == 4) {
                     NavHostFragment.findNavController(this@HomeFragment)
                         .navigate(R.id.storyFragment, Bundle().apply {
+                            putString("transitionName", view.transitionName)
+                        }, null, extras)
+                } else if (position == 5) {
+                    NavHostFragment.findNavController(this@HomeFragment)
+                        .navigate(R.id.jokeDailyFragment, Bundle().apply {
                             putString("transitionName", view.transitionName)
                         }, null, extras)
                 }
