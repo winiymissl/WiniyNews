@@ -51,7 +51,7 @@ class BeautyFragment<T> : BaseFragment(), BeautyContract.View {
     ): View? {
         if (rootView == null) {
             rootView =
-                inflater.inflate(com.example.winiynews.R.layout.fragment_beauty, container, false)
+                inflater.inflate(R.layout.fragment_beauty, container, false)
         }
         binding = FragmentBeautyBinding.bind(rootView!!)
         return binding.root

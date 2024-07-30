@@ -108,7 +108,7 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
 
             override fun onLongItemClick(view: View?, position: Int): Boolean {
                 val temp: ArrayList<String> = arrayListOf()
-                data.data.list
+                data.data.list[position].ingredient
                     .forEach {
                         temp.add(it.name)
                     }

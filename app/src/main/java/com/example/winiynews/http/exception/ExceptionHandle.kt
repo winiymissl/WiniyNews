@@ -14,8 +14,6 @@ import java.net.UnknownHostException
  * @Version 1.0
  */
 class ExceptionHandle {
-
-
     companion object {
         var errorCode = ErrorStatus.UNKNOWN_ERROR
         var errorMsg = "请求失败，请稍后重试"
@@ -59,6 +57,5 @@ class ExceptionHandle {
             }
             return errorMsg
         }
-
     }
 }

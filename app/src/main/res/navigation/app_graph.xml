@@ -72,9 +72,25 @@
     <fragment
         android:id="@+id/storyFragment"
         android:name="com.example.winiynews.ui.fragment.feature.story.StoryFragment"
-        android:label="StoryFragment" />
+        android:label="StoryFragment" >
+        <action
+            android:id="@+id/action_storyFragment_to_storyListFragment"
+            app:destination="@id/storyListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/jokeDailyFragment"
         android:name="com.example.winiynews.ui.fragment.feature.JokeDailyFragment"
         android:label="JokeDailyFragment" />
+    <fragment
+        android:id="@+id/storyListFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.story.StoryListFragment"
+        android:label="StoryListFragment" >
+        <action
+            android:id="@+id/action_storyListFragment_to_storyDetailFragment"
+            app:destination="@id/storyDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/storyDetailFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.story.StoryDetailFragment"
+        android:label="StoryDetailFragment" />
 </navigation>

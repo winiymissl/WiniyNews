@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/constraintlayout"
-    android:background="#F5F5F5"
+    android:id="@+id/constraintlayoutStoryDetail"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <com.classic.common.MultipleStatusView
-        android:id="@+id/multiple_status_view"
+        android:id="@+id/multipleStatusViewStoryDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:emptyView="@layout/empty_view"
         app:errorView="@layout/error_view"
+        app:layout_constraintTop_toTopOf="parent"
         app:loadingView="@layout/loading_view"
         app:noNetworkView="@layout/no_network_view">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:padding="16dp"
             android:layout_height="wrap_content">
 
-
-        <TextView
-            android:id="@+id/textView_sentence"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="24dp" />
+            <TextView
+                android:id="@+id/story_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="19dp" />
         </androidx.core.widget.NestedScrollView>
     </com.classic.common.MultipleStatusView>
 </androidx.constraintlayout.widget.ConstraintLayout>

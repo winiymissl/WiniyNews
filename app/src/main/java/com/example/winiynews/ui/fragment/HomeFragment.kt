@@ -54,7 +54,6 @@ class HomeFragment : Fragment() {
         )
         val adapter = HomeRecyclerviewAdapter(object : HomeRecyclerviewAdapter.OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
-                Logger.d(System.currentTimeMillis())
                 view?.transitionName = "shared_element_container_$position"
                 val extras =
                     FragmentNavigatorExtras(view!! to "shared_element_container_$position")

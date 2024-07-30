@@ -11,7 +11,7 @@ import com.example.winiynews.bean.StoryBean.StoryCategoryBean
 interface StoryContract {
     interface View : IBaseView {
         fun setStoryData(data: StoryCategoryBean)
-        fun showError(msg: String, errorCode: Int)
+         fun showError(msg: String, errorCode: Int)
     }
 
     interface Presenter {

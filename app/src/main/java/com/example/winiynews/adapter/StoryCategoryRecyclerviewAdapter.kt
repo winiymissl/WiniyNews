@@ -49,7 +49,6 @@ class StoryCategoryRecyclerviewAdapter(val mListener: OnItemClickListener) :
             v?.let { mListener.onLongItemClick(v, v.id) }
             return true
         }
-
     }
 
     override fun getItemCount(): Int {

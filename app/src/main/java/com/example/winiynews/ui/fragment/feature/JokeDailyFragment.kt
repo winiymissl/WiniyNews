@@ -74,7 +74,7 @@ class JokeDailyFragment : BaseFragment(), JokeContract.View {
     override suspend fun setSentenceData(bean: JokeBean) {
         withContext(Dispatchers.Main) {
             mLayoutStatusView?.showContent()
-            binding.textViewSentence.text = bean.data[0].content
+            binding.textViewSentence.text = bean.data.toString()
         }
     }
 

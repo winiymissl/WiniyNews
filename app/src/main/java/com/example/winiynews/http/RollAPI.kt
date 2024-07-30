@@ -7,6 +7,8 @@ import com.example.winiynews.bean.RecipeBean.RecipeCategoryBean
 import com.example.winiynews.bean.RecipeBean.SearchRecipeBean
 import com.example.winiynews.bean.SentenceBean.JokeBean
 import com.example.winiynews.bean.StoryBean.StoryCategoryBean
+import com.example.winiynews.bean.StoryBean.StoryDetailBean
+import com.example.winiynews.bean.StoryBean.StoryListBean
 import com.example.winiynews.bean.beautyBean.BeautyBean
 import com.example.winiynews.constant.HttpConstant
 import io.reactivex.rxjava3.core.Observable
@@ -69,11 +71,29 @@ interface RollAPI {
     ): Observable<StoryCategoryBean>
 
     /**
-     * 使用协程
+     * 使用协程+flow
      */
     @GET("api/jokes/list/random?")
     suspend fun getJokeList(
         @Query("app_id") app_id: String = HttpConstant.APPID,
         @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
     ): JokeBean
+
+    /**
+     * 使用flow
+     * */
+    @GET("api/story/list?")
+    suspend fun getStoryList(
+        @Query("app_id") app_id: String = HttpConstant.APPID,
+        @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
+        @Query("type_id") type_id: Int,
+        @Query("page") page: Int,
+    ): StoryListBean
+
+    @GET("api/story/details?")
+    suspend fun getStoryDetail(
+        @Query("app_id") app_id: String = HttpConstant.APPID,
+        @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
+        @Query("story_id") story_id: Int
+    ): StoryDetailBean
 }

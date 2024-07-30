@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.winiynews.R
 import com.example.winiynews.adapter.StoryCategoryRecyclerviewAdapter
@@ -25,6 +26,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 class StoryFragment : BaseFragment(), StoryContract.View {
     private lateinit var binding: FragmentStoryBinding
     private val mPresenter by lazy { StoryPresenter() }
+    private var rootView: View? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
@@ -37,8 +39,11 @@ class StoryFragment : BaseFragment(), StoryContract.View {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding =
-            FragmentStoryBinding.bind(inflater.inflate(R.layout.fragment_story, container, false))
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_story, container, false)
+
+        }
+        binding = FragmentStoryBinding.bind(rootView!!)
         return binding.root
     }
 
@@ -68,7 +73,10 @@ class StoryFragment : BaseFragment(), StoryContract.View {
         val adapter = StoryCategoryRecyclerviewAdapter(object :
             StoryCategoryRecyclerviewAdapter.OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
-
+                NavHostFragment.findNavController(this@StoryFragment)
+                    .navigate(R.id.storyListFragment, Bundle().apply {
+                        putString("typeId", data.data[position].type_id.toString())
+                    })
             }
 
             override fun onLongItemClick(view: View?, position: Int): Boolean {/*
@@ -90,7 +98,7 @@ class StoryFragment : BaseFragment(), StoryContract.View {
         if (errorCode == ErrorStatus.NETWORK_ERROR) {
             mLayoutStatusView?.showNoNetwork()
         } else {
-            mLayoutStatusView?.showError()
+            mLayoutStatusView?.showError(msg)
         }
     }
 

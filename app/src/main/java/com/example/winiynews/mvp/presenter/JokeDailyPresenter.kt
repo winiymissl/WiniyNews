@@ -1,10 +1,12 @@
 package com.example.winiynews.mvp.presenter
 
 import com.example.winiynews.base.BasePresenter
+import com.example.winiynews.http.exception.ExceptionHandle
 import com.example.winiynews.mvp.contract.JokeContract
 import com.example.winiynews.mvp.model.JokeModel
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 
 /**
@@ -17,7 +19,12 @@ class JokeDailyPresenter : BasePresenter<JokeContract.View>(), JokeContract.Pres
     override suspend fun requestSentenceData() {
         checkViewAttached()
         mRootView?.showLoading()
-        model.getSentenceData().flowOn(Dispatchers.IO).collect {
+        model.getSentenceData().flowOn(Dispatchers.IO).catch {
+            mRootView?.showError(
+                ExceptionHandle.handleException(it),
+                ExceptionHandle.errorCode
+            )
+        }.collect {
             try {
                 mRootView?.setSentenceData(it)
                 mRootView?.dismissLoading()
