@@ -120,4 +120,8 @@ class StoryListFragment : BaseFragment(), StoryListContract.View {
     override fun dismissLoading() {
 
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
+    }
 }

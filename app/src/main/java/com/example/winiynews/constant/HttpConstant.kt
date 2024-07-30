@@ -8,6 +8,7 @@ package com.example.winiynews.constant
 object HttpConstant {
     const val base_url: String = "https://www.wanandroid.com/"
     const val base_url_roll: String = "https://www.mxnzp.com/"
+    const val base_url_baidu: String = "https://aip.baidubce.com/rpc/2.0/nlp/v1/"
     const val APPID: String = "hv1asqfhrgmty2gc"
     const val APPSECRET: String = "N4EBbFemeY4EgkCVm5RqyTY3xbLd58PZ"
 }

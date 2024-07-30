@@ -92,4 +92,9 @@ class JokeDailyFragment : BaseFragment(), JokeContract.View {
 
     override fun dismissLoading() {
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.detachView()
+    }
 }

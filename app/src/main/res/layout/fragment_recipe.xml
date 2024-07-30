@@ -35,7 +35,6 @@
             android:layout_height="match_parent"
             android:hint="输入"
             android:isScrollContainer="true">
-
             <com.classic.common.MultipleStatusView
                 android:id="@+id/multiple_status_view_category_recycler_view"
                 android:layout_width="match_parent"
@@ -46,10 +45,21 @@
                 app:loadingView="@layout/loading_view"
                 app:noNetworkView="@layout/no_network_view">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_results_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/smartLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/search_results_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <com.scwang.smart.refresh.footer.BallPulseFooter
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
             </com.classic.common.MultipleStatusView>
         </com.google.android.material.search.SearchView>
 

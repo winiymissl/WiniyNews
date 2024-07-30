@@ -19,6 +19,7 @@ class RecipePresenter : BasePresenter<RecipeContract.View>(), RecipeContract.Pre
         mRootView?.showLoading()
         model.getRecipeCategory(categoryId).subscribe({
             mRootView?.apply {
+                dismissLoading()
                 setRecipeCategoryData(it)
             }
         }, {
@@ -32,21 +33,41 @@ class RecipePresenter : BasePresenter<RecipeContract.View>(), RecipeContract.Pre
 
     override fun requestSearchRecipeData(keyword: String, page: String) {
         checkViewAttached()
+        if (page.toInt() == 1) {
         mRootView?.showRecyclerviewLoading()
         model.searchRecipe(keyword, page).subscribe({
             mRootView?.apply {
-                Logger.d(it)
-                setSearchRecipeData(it)
+                dismissLoading()
+                if (it.data.totalCount != 0) {
+                    setSearchRecipeData(it)
+                } else {
+                    dismissLoading()
+                    showRecyclerviewError(
+                        "未找到", ExceptionHandle.errorCode
+                    )
+                }
             }
         }, {
-            Logger.d(it)
             mRootView?.apply {
                 dismissLoading()
                 showRecyclerviewError(
-                    ExceptionHandle.handleException(it),
-                    ExceptionHandle.errorCode
+                    ExceptionHandle.handleException(it), ExceptionHandle.errorCode
                 )
             }
         })
+        } else {
+            //loadMore不需要显示加载动画
+            model.searchRecipe(keyword, page).subscribe({
+                mRootView?.apply {
+                    setSearchRecipeDataMore(it)
+                }
+            }, {
+                mRootView?.apply {
+                    showRecyclerviewError(
+                        ExceptionHandle.handleException(it), ExceptionHandle.errorCode
+                    )
+                }
+            })
+        }
     }
 }

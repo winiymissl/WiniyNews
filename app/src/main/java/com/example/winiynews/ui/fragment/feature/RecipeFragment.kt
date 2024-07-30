@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.winiynews.R
 import com.example.winiynews.adapter.ItemSearchData
+import com.example.winiynews.adapter.RRV_ItemClickListener
 import com.example.winiynews.adapter.RecipeCategoryRecyclerviewAdapter
 import com.example.winiynews.adapter.RecipeSearchRecyclerviewAdapter
 import com.example.winiynews.base.BaseFragment
@@ -21,7 +23,9 @@ import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.RecipeContract
 import com.example.winiynews.mvp.presenter.RecipePresenter
 import com.google.android.material.transition.MaterialContainerTransform
+import com.hjq.toast.Toaster
 import com.orhanobut.logger.Logger
+import com.scwang.smart.refresh.footer.ClassicsFooter
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 
 
@@ -33,7 +37,10 @@ import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 class RecipeFragment : BaseFragment(), RecipeContract.View {
     private lateinit var binding: FragmentRecipeBinding
     private val mPresenter: RecipePresenter by lazy { RecipePresenter() }
-    private var page: String? = "1"
+    private var page: Int = 1
+    private var totalPage: Int = 1
+
+    private lateinit var adapterRecyclerview: RecipeSearchRecyclerviewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -51,7 +58,6 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
     override fun initView() {
         mPresenter.attachView(this)
         mLayoutStatusView = binding.multipleStatusViewCategory
-        mPresenter.requestRecipeCategoryData("-1")
         binding.searchView.setupWithSearchBar(binding.searchBar)
         arguments?.let {
             ViewCompat.setTransitionName(
@@ -63,25 +69,36 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }
-
         binding.searchView.apply {
             this.setupWithSearchBar(binding.searchBar)
             this.editText.setOnEditorActionListener { _, _, event ->
                 if (KeyEvent.KEYCODE_ENTER == event?.keyCode && event.action == KeyEvent.ACTION_DOWN) {
-                    page = "1"
+                    page = 1
                     mPresenter.requestSearchRecipeData(
-                        binding.searchView.editText.text.toString(), page!!
+                        binding.searchView.editText.text.toString(), page.toString()
                     )
                     true
                 }
                 false
             }
         }
-
+        binding.smartLayout.setRefreshFooter(ClassicsFooter(this@RecipeFragment.context))
+        binding.smartLayout.setOnLoadMoreListener {
+            if (totalPage == page) {
+                binding.smartLayout.finishLoadMore()
+                Toaster.show("这就是全部数据了哦")
+            } else {
+                mPresenter.requestSearchRecipeData(
+                    binding.searchView.editText.text.toString(), page.toString()
+                )
+            }
+        }
+        binding.smartLayout.setEnableRefresh(false)
 
     }
 
     override fun lazyLoad() {
+        mPresenter.requestRecipeCategoryData("-1")
     }
 
     override fun setRecipeCategoryData(data: RecipeCategoryBean) {
@@ -101,37 +118,98 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
 
     override fun setSearchRecipeData(data: SearchRecipeBean) {
         binding.multipleStatusViewCategoryRecyclerView.showContent()
-        val adapter = RecipeSearchRecyclerviewAdapter(object :
-            RecipeSearchRecyclerviewAdapter.OnItemClickListener {
+        adapterRecyclerview = RecipeSearchRecyclerviewAdapter(object : RRV_ItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
             }
 
             override fun onLongItemClick(view: View?, position: Int): Boolean {
-                val temp: ArrayList<String> = arrayListOf()
-                data.data.list[position].ingredient
-                    .forEach {
+                try {
+                    val temp: ArrayList<String> = arrayListOf()
+                    Toaster.show(position)
+                    data.data.list[position].ingredient.forEach {
                         temp.add(it.name)
                     }
-                Logger.d(data.data.list)
-                NavHostFragment.findNavController(this@RecipeFragment)
-                    .navigate(R.id.ingredientBottomSheet, Bundle().apply {
-                        putStringArrayList(
-                            "recipeData", temp
-                        )
-                    })
+                    NavHostFragment.findNavController(this@RecipeFragment)
+                        .navigate(R.id.ingredientBottomSheet, Bundle().apply {
+                            putStringArrayList(
+                                "recipeData", temp
+                            )
+                        })
+                } catch (e: Exception) {
+                    Logger.d(e)
+                }
                 return true
             }
-        })
-        var temp: MutableList<ItemSearchData> = mutableListOf()
-        data.data.list.forEach {
-            temp.add(ItemSearchData(it.cover, it.desc, it.id, it.ingredient, it.name))
+        }).apply {
+            var temp: MutableList<ItemSearchData> = mutableListOf()
+            data.data.list.forEach {
+                temp.add(ItemSearchData(it.cover, it.desc, it.id, it.ingredient, it.name))
+            }
+            submitList(temp)
         }
-        Logger.d(data.data.list)
         binding.searchResultsRecyclerView.apply {
-            this.layoutManager = GridLayoutManager(this@RecipeFragment.context, 1)
-            this.adapter = adapter
+            this.layoutManager = GridLayoutManager(this@RecipeFragment.context, 2)
+            this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                }
+            })
+            this.adapter = adapterRecyclerview
+
         }
-        adapter.submitList(temp)
+        totalPage = data.data.totalPage
+        if (totalPage > page) {
+            page++
+        }
+    }
+
+    override fun setSearchRecipeDataMore(data: SearchRecipeBean) {
+        binding.smartLayout.finishLoadMore()
+        adapterRecyclerview.apply {
+            var temp: MutableList<ItemSearchData> = mutableListOf()
+            data.data.list.forEach {
+                temp.add(ItemSearchData(it.cover, it.desc, it.id, it.ingredient, it.name))
+            }
+            addData(temp)
+        }
+        val adapterTemp = RecipeSearchRecyclerviewAdapter(object : RRV_ItemClickListener {
+            override fun onItemClick(view: View?, position: Int) {
+            }
+
+            override fun onLongItemClick(view: View?, position: Int): Boolean {
+                try {
+                    val temp: ArrayList<String> = arrayListOf()
+                    adapterRecyclerview.getData()[position].ingredient.forEach {
+                        temp.add(it.name)
+                    }
+                    NavHostFragment.findNavController(this@RecipeFragment)
+                        .navigate(R.id.ingredientBottomSheet, Bundle().apply {
+                            putStringArrayList(
+                                "recipeData", temp
+                            )
+                        })
+                } catch (e: Exception) {
+                    Logger.d(e)
+                }
+                return true
+            }
+        }).apply {
+            submitList(adapterRecyclerview.getData())
+        }
+        binding.searchResultsRecyclerView.apply {
+            this.layoutManager = GridLayoutManager(this@RecipeFragment.context, 2)
+            this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                }
+            })
+            this.adapter = adapterTemp
+        }
+        binding.searchResultsRecyclerView.scrollToPosition(adapterRecyclerview.getData().size - 12)
+        Logger.d(adapterRecyclerview.getData())
+        page++
     }
 
     override fun showError(msg: String, errorCode: Int) {
@@ -145,6 +223,7 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
     override fun showLoading() {
         mLayoutStatusView?.showLoading()
     }
+
     override fun showRecyclerviewLoading() {
         binding.multipleStatusViewCategoryRecyclerView.showLoading()
     }
@@ -159,6 +238,7 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
 
     override fun dismissLoading() {
     }
+
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.detachView()

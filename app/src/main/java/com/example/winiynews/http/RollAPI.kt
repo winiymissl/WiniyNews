@@ -4,6 +4,7 @@ import com.example.winiynews.bean.FoodHeatBean.FoodHeatDetail
 import com.example.winiynews.bean.FoodHeatBean.SearchFoodHeatBean
 import com.example.winiynews.bean.IdentifyBean.IdCardIdentifyBean
 import com.example.winiynews.bean.RecipeBean.RecipeCategoryBean
+import com.example.winiynews.bean.RecipeBean.RecipeDetailBean
 import com.example.winiynews.bean.RecipeBean.SearchRecipeBean
 import com.example.winiynews.bean.SentenceBean.JokeBean
 import com.example.winiynews.bean.StoryBean.StoryCategoryBean
@@ -21,6 +22,9 @@ import retrofit2.http.Query
  * @Version 1.0
  */
 interface RollAPI {
+    /**
+     * 使用Rxjava
+     */
     @GET("api/idcard/search?")
     fun idCardIdentify(
         @Query("app_id") app_id: String = HttpConstant.APPID,
@@ -90,10 +94,35 @@ interface RollAPI {
         @Query("page") page: Int,
     ): StoryListBean
 
+    /**
+     * 使用flow
+     */
     @GET("api/story/details?")
     suspend fun getStoryDetail(
         @Query("app_id") app_id: String = HttpConstant.APPID,
         @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
         @Query("story_id") story_id: Int
     ): StoryDetailBean
+
+    /**
+     * 使用flow
+     * 歇后语
+     */
+    @GET("api/xiehouyu/search?")
+    suspend fun searchXiehouyu(
+        @Query("app_id") app_id: String = HttpConstant.APPID,
+        @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
+        @Query("key") key: String
+    ): StoryDetailBean
+
+    /**
+     * 使用flow
+     * 菜谱细节
+     * */
+    @GET("api/cookbook/details?")
+    fun getRecipeDetail(
+        @Query("app_id") app_id: String = HttpConstant.APPID,
+        @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
+        @Query("id") id: String
+    ): RecipeDetailBean
 }

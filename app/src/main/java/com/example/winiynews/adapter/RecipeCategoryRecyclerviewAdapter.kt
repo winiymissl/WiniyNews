@@ -27,8 +27,6 @@ class RecipeCategoryRecyclerviewAdapter() : RecyclerView.Adapter<RecyclerView.Vi
             list.add(item)
             notifyItemInserted(list.indexOf(item))
         }
-//        list.addAll(data)
-//        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

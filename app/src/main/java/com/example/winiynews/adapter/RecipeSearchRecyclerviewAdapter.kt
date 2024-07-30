@@ -1,7 +1,6 @@
 package com.example.winiynews.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,24 +13,27 @@ import com.example.winiynews.databinding.ItemRecyclerviewRecipeSearchBinding
  * @Date 2024-06-03 14:32
  * @Version 1.0
  */
-class RecipeSearchRecyclerviewAdapter(val mListener: OnItemClickListener) :
+class RecipeSearchRecyclerviewAdapter(val mListener: RRV_ItemClickListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    interface OnItemClickListener {
-        fun onItemClick(view: View?, position: Int)
-        fun onLongItemClick(view: View?, position: Int): Boolean
-    }
+
     private val list: MutableList<ItemSearchData> = mutableListOf()
     fun submitList(data: List<ItemSearchData>) {
 //        for (item in data) {
 //            list.add(item)
 //            notifyItemInserted(list.indexOf(item))
 //        }
-        list.clear()
         list.addAll(data)
         notifyDataSetChanged()
     }
-
+    fun addData(data: List<ItemSearchData>) {
+        list.addAll(data)
+        notifyDataSetChanged()
+//        for (item in data) {
+//            list.add(item)
+//            notifyItemInserted(itemCount)
+//        }
+    }
     fun getData(): MutableList<ItemSearchData> {
         return list
     }
@@ -41,24 +43,12 @@ class RecipeSearchRecyclerviewAdapter(val mListener: OnItemClickListener) :
                 .inflate(R.layout.item_recyclerview_recipe_search, parent, false)
         )
         val holder = SearchViewHolder(binding)
-        val rvListener = RV_listener()
+        val rvListener = RRV_Listener(mListener)
         holder.itemView.setOnLongClickListener(rvListener)
         holder.itemView.setOnClickListener(rvListener)
         return holder
     }
 
-    inner class RV_listener : View.OnClickListener, View.OnLongClickListener {
-        override fun onClick(v: View?) {
-            v?.let { mListener?.onItemClick(v, v.id) }
-        }
-
-        override fun onLongClick(v: View?): Boolean {
-            v?.let {
-                return mListener?.onLongItemClick(v, v.id) ?: false
-            }
-            return false
-        }
-    }
     override fun getItemCount(): Int {
         return list.size
     }
@@ -66,7 +56,6 @@ class RecipeSearchRecyclerviewAdapter(val mListener: OnItemClickListener) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as SearchViewHolder).bindTo(list[position], position)
         holder.itemView.id = position
-
     }
 
     class SearchViewHolder(val binding: ItemRecyclerviewRecipeSearchBinding) :
