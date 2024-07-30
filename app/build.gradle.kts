@@ -37,6 +37,8 @@ android {
     }
 }
 dependencies {
+    //二级联动列表
+    implementation("com.kunminx.linkage:linkage-recyclerview:2.7.0")
     //smartLayout
     implementation("androidx.appcompat:appcompat:1.0.0")
     implementation("io.github.scwang90:refresh-layout-kernel:2.1.0")    //核心必须依赖

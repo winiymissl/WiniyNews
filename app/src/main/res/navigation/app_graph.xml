@@ -59,11 +59,14 @@
         android:label="FoodHeatDetailBottomSheet" />
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="com.example.winiynews.ui.fragment.feature.RecipeFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.recipe.RecipeFragment"
         android:label="RecipeFragment" >
         <action
             android:id="@+id/action_recipeFragment_to_ingredientBottomSheet"
             app:destination="@id/ingredientBottomSheet" />
+        <action
+            android:id="@+id/action_recipeFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
     </fragment>
     <dialog
         android:id="@+id/ingredientBottomSheet"
@@ -93,4 +96,8 @@
         android:id="@+id/storyDetailFragment"
         android:name="com.example.winiynews.ui.fragment.feature.story.StoryDetailFragment"
         android:label="StoryDetailFragment" />
+    <fragment
+        android:id="@+id/recipeDetailFragment"
+        android:name="com.example.winiynews.ui.fragment.feature.recipe.RecipeDetailFragment"
+        android:label="RecipeDetailFragment" />
 </navigation>

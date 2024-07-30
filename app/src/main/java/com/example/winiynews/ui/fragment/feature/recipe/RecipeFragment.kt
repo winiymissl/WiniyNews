@@ -1,4 +1,4 @@
-package com.example.winiynews.ui.fragment.feature
+package com.example.winiynews.ui.fragment.feature.recipe
 
 import android.graphics.Color
 import android.os.Bundle
@@ -39,6 +39,7 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
     private val mPresenter: RecipePresenter by lazy { RecipePresenter() }
     private var page: Int = 1
     private var totalPage: Int = 1
+    private var rooView: View? = null
 
     private lateinit var adapterRecyclerview: RecipeSearchRecyclerviewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,8 +49,11 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(getLayoutId(), container, false)
-        binding = FragmentRecipeBinding.bind(view)
+
+        if (rooView == null) {
+            rooView = inflater.inflate(getLayoutId(), container, false)
+        }
+        binding = FragmentRecipeBinding.bind(rooView!!)
         return binding.root
     }
 
@@ -120,13 +124,17 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
         binding.multipleStatusViewCategoryRecyclerView.showContent()
         adapterRecyclerview = RecipeSearchRecyclerviewAdapter(object : RRV_ItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
+                NavHostFragment.findNavController(this@RecipeFragment)
+                    .navigate(R.id.recipeDetailFragment, Bundle().apply {
+                        putString("id", data.data.list[position].id.toString())
+                    })
             }
 
             override fun onLongItemClick(view: View?, position: Int): Boolean {
                 try {
                     val temp: ArrayList<String> = arrayListOf()
                     Toaster.show(position)
-                    data.data.list[position].ingredient.forEach {
+                    adapterRecyclerview.getData()[position].ingredient.forEach {
                         temp.add(it.name)
                     }
                     NavHostFragment.findNavController(this@RecipeFragment)
@@ -175,6 +183,13 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
         }
         val adapterTemp = RecipeSearchRecyclerviewAdapter(object : RRV_ItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
+                try {
+                    NavHostFragment.findNavController(this@RecipeFragment)
+                        .navigate(R.id.recipeDetailFragment, Bundle().apply {
+                            putString("id", adapterRecyclerview.getData()[position].id.toString())
+                        })
+                } catch (e: Exception) {
+                }
             }
 
             override fun onLongItemClick(view: View?, position: Int): Boolean {
