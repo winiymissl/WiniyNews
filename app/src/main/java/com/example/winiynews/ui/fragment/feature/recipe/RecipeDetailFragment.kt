@@ -53,7 +53,7 @@ class RecipeDetailFragment : BaseFragment(), RecipeDetailContract.View {
         mLayoutStatusView?.showContent()
         binding.title.text = bean.data.name
         binding.duration.text = bean.data.duration
-        binding.tips.text = bean.data.tips
+//        binding.tips.text = bean.data.tips
         binding.ingredient.text = bean.data.ingredient.toString()
         try {
             val items = mutableListOf<ElemeGroupedItem>()
@@ -70,6 +70,7 @@ class RecipeDetailFragment : BaseFragment(), RecipeDetailContract.View {
             binding.linkRecyclerview.init(
                 items, ElemePrimaryAdapterConfig(), ElemeSecondaryAdapterConfig()
             )
+            Logger.d(items.size)
         } catch (e: Exception) {
             Logger.d(e)
         }

@@ -32,6 +32,8 @@ class ElemePrimaryAdapterConfig : ILinkagePrimaryAdapterConfig {
 
     override fun onBindViewHolder(p0: LinkagePrimaryViewHolder?, p1: Boolean, p2: String?) {
         val tvTitle = p0?.groupTitle as TextView
+        tvTitle.isFocusable = p1
+        tvTitle.setFocusableInTouchMode(p1)
         tvTitle.apply {
             text = p2
             setBackgroundColor(
