@@ -35,7 +35,7 @@ class ElemeSecondaryAdapterConfig : ILinkageSecondaryAdapterConfig<ElemeGroupedI
     }
 
     override fun getFooterLayoutId(): Int {
-        return 0
+        return R.layout.footer
     }
 
     override fun getGridLayoutId(): Int {

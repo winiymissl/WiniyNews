@@ -51,8 +51,10 @@ class RecipeDetailFragment : BaseFragment(), RecipeDetailContract.View {
 
     override fun setRecipeDetailData(bean: RecipeDetailBean) {
         mLayoutStatusView?.showContent()
-        Logger.d(bean)
-
+        binding.title.text = bean.data.name
+        binding.duration.text = bean.data.duration
+        binding.tips.text = bean.data.tips
+        binding.ingredient.text = bean.data.ingredient.toString()
         try {
             val items = mutableListOf<ElemeGroupedItem>()
             bean.data.instruction.forEach {
@@ -64,9 +66,7 @@ class RecipeDetailFragment : BaseFragment(), RecipeDetailContract.View {
                         )
                     )
                 )
-                Logger.d(it)
             }
-
             binding.linkRecyclerview.init(
                 items, ElemePrimaryAdapterConfig(), ElemeSecondaryAdapterConfig()
             )
@@ -74,11 +74,6 @@ class RecipeDetailFragment : BaseFragment(), RecipeDetailContract.View {
             Logger.d(e)
         }
     }
-
-    data class DefaultGroupedItem(
-        val id: String,
-        val name: String
-    )
 
     override fun showError(msg: String, errorCode: Int) {
         if (errorCode == ErrorStatus.NETWORK_ERROR) {
