@@ -124,5 +124,5 @@ interface RollAPI {
         @Query("app_id") app_id: String = HttpConstant.APPID,
         @Query("app_secret") app_secret: String = HttpConstant.APPSECRET,
         @Query("id") id: String
-    ): RecipeDetailBean
+    ): Observable<RecipeDetailBean>
 }

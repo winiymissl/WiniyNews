@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.winiynews.R
 import com.example.winiynews.base.BaseFragment
+import com.example.winiynews.bean.RecipeBean.ElemeGroupedItem
+import com.example.winiynews.bean.RecipeBean.ElemePrimaryAdapterConfig
+import com.example.winiynews.bean.RecipeBean.ElemeSecondaryAdapterConfig
 import com.example.winiynews.bean.RecipeBean.RecipeDetailBean
 import com.example.winiynews.databinding.FragmentRecipeDetailBinding
 import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.RecipeDetailContract
 import com.example.winiynews.mvp.presenter.RecipeDetailPresenter
+import com.orhanobut.logger.Logger
 
 /**
  * @Author winiymissl
@@ -37,7 +41,6 @@ class RecipeDetailFragment : BaseFragment(), RecipeDetailContract.View {
             id = it.getString("id")
         }
         mLayoutStatusView = binding.multipleStatusView
-
     }
 
     override fun lazyLoad() {
@@ -47,9 +50,29 @@ class RecipeDetailFragment : BaseFragment(), RecipeDetailContract.View {
     }
 
     override fun setRecipeDetailData(bean: RecipeDetailBean) {
-        binding.multipleStatusView.showContent()
-        var list = mutableListOf<String>()
-//        binding.linkRecyclerview.init()
+        mLayoutStatusView?.showContent()
+        Logger.d(bean)
+
+        try {
+            val items = mutableListOf<ElemeGroupedItem>()
+            bean.data.instruction.forEach {
+                items.add(ElemeGroupedItem(true, it.step))
+                items.add(
+                    ElemeGroupedItem(
+                        ElemeGroupedItem.ItemInfo(
+                            it.step, it.step, it.text, it.url
+                        )
+                    )
+                )
+                Logger.d(it)
+            }
+
+            binding.linkRecyclerview.init(
+                items, ElemePrimaryAdapterConfig(), ElemeSecondaryAdapterConfig()
+            )
+        } catch (e: Exception) {
+            Logger.d(e)
+        }
     }
 
     data class DefaultGroupedItem(
@@ -59,9 +82,9 @@ class RecipeDetailFragment : BaseFragment(), RecipeDetailContract.View {
 
     override fun showError(msg: String, errorCode: Int) {
         if (errorCode == ErrorStatus.NETWORK_ERROR) {
-            binding.multipleStatusView.showNoNetwork()
+            mLayoutStatusView?.showNoNetwork()
         } else {
-            binding.multipleStatusView.showError()
+            mLayoutStatusView?.showError()
         }
     }
 
