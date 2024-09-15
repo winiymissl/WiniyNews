@@ -32,6 +32,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "WiniyNews"
 include(":app")
-include(":lib_MultipleStatusView")
 include(":lib_ANRMonitor")
 include(":lib_StutterMonitor")
+include(":lib_multiplestatusview")

@@ -12,8 +12,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/lib_ANRMonitor" />
-            <option value="$PROJECT_DIR$/lib_MultipleStatusView" />
             <option value="$PROJECT_DIR$/lib_StutterMonitor" />
+            <option value="$PROJECT_DIR$/lib_multiplestatusview" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
-import com.classic.common.MultipleStatusView
+import com.example.lib_multiplestatusview.MultipleStatusView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -16,8 +16,7 @@ import pub.devrel.easypermissions.EasyPermissions
  * @Date 2024-06-02 13:31
  * @Version 1.0
  */
-abstract class BaseBottomSheet : BottomSheetDialogFragment(),
-    EasyPermissions.PermissionCallbacks {
+abstract class BaseBottomSheet : BottomSheetDialogFragment(), EasyPermissions.PermissionCallbacks {
     /**
      * 视图是否加载完毕
      */

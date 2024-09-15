@@ -83,6 +83,7 @@ dependencies {
     implementation("jp.wasabeef:glide-transformations:4.3.0")
     //Banner
     implementation("io.github.youth5201314:banner:2.2.3")
+    implementation(project(":lib_multiplestatusview"))
     //navigation
     val nav_version = "2.7.7"
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
