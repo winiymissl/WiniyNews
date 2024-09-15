@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
-import com.classic.common.MultipleStatusView
+import com.example.lib_multiplestatusview.MultipleStatusView
 import com.hjq.toast.Toaster
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions

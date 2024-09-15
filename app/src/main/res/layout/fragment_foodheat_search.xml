@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:hint="输入"
         android:isScrollContainer="true">
-        <com.classic.common.MultipleStatusView
+        <com.example.lib_multiplestatusview.MultipleStatusView
             android:id="@+id/multiple_status_view"
             android:layout_width="match_parent"
             app:emptyView="@layout/empty_view"
@@ -33,6 +33,6 @@
             android:id="@+id/search_results_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        </com.classic.common.MultipleStatusView>
+        </com.example.lib_multiplestatusview.MultipleStatusView>
     </com.google.android.material.search.SearchView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
-import com.classic.common.MultipleStatusView
+import com.example.lib_multiplestatusview.MultipleStatusView
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 

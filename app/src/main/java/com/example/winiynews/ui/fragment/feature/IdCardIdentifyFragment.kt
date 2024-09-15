@@ -2,6 +2,7 @@ package com.example.winiynews.ui.fragment.feature
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,7 +67,12 @@ class IdCardIdentifyFragment : BaseFragment(), IdCardContract.View {
             /**
              * 从edit中获取信息
              */
-            mPresenter.requestIdCardData(binding.editText.text.toString())
+
+            try {
+                mPresenter.requestIdCardData(binding.editText.text.toString())
+            } catch (e: Exception) {
+                Log.d("这个世界是一个bug",e.toString())
+            }
         }
         binding.topAppBar.setNavigationOnClickListener {
             NavHostFragment.findNavController(this).popBackStack()

@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_beauty"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
+    android:fitsSystemWindows="true"
     tools:context=".ui.fragment.feature.BeautyFragment">
 
-    <com.classic.common.MultipleStatusView
+    <com.example.lib_multiplestatusview.MultipleStatusView
         android:id="@+id/MultipleStatusView_beauty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,7 +39,7 @@
         <!--                android:layout_width="match_parent"-->
         <!--                android:layout_height="wrap_content" />-->
         <!--        </com.scwang.smart.refresh.layout.SmartRefreshLayout>-->
-    </com.classic.common.MultipleStatusView>
+    </com.example.lib_multiplestatusview.MultipleStatusView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/botton_again"
@@ -52,10 +52,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/botton_download"
-        android:transitionName="shared_element_container"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:transitionName="shared_element_container"
         app:icon="@drawable/download"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent">
 
-    <com.classic.common.MultipleStatusView
+    <com.example.lib_multiplestatusview.MultipleStatusView
         android:id="@+id/multiple_status_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,5 +28,5 @@
             android:gravity="center"
             android:textSize="20dp" />
         </androidx.core.widget.NestedScrollView>
-    </com.classic.common.MultipleStatusView>
+    </com.example.lib_multiplestatusview.MultipleStatusView>
 </androidx.constraintlayout.widget.ConstraintLayout>

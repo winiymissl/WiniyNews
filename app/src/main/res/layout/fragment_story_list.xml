@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent">
 
-    <com.classic.common.MultipleStatusView
+    <com.example.lib_multiplestatusview.MultipleStatusView
         android:id="@+id/multipleStatusViewStoryList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,5 +19,5 @@
             android:id="@+id/recyclerview_story_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </com.classic.common.MultipleStatusView>
+    </com.example.lib_multiplestatusview.MultipleStatusView>
 </androidx.constraintlayout.widget.ConstraintLayout>

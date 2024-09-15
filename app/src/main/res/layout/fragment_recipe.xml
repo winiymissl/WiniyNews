@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <com.classic.common.MultipleStatusView
+    <com.example.lib_multiplestatusview.MultipleStatusView
         android:id="@+id/multiple_status_view_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,8 @@
             android:layout_height="match_parent"
             android:hint="输入"
             android:isScrollContainer="true">
-            <com.classic.common.MultipleStatusView
+
+            <com.example.lib_multiplestatusview.MultipleStatusView
                 android:id="@+id/multiple_status_view_category_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,9 +61,7 @@
                         android:layout_height="wrap_content" />
                 </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-            </com.classic.common.MultipleStatusView>
+            </com.example.lib_multiplestatusview.MultipleStatusView>
         </com.google.android.material.search.SearchView>
-
-
-    </com.classic.common.MultipleStatusView>
+    </com.example.lib_multiplestatusview.MultipleStatusView>
 </androidx.constraintlayout.widget.ConstraintLayout>
