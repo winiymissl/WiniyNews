@@ -2,7 +2,8 @@ pluginManagement {
     repositories {
 
         mavenCentral()
-
+        maven { url = uri("https://www.jitpack.io") }
+        maven { url = uri("https://s01.oss.sonatype.org/content/groups/public") }
         gradlePluginPortal()
         google {
             content {
@@ -11,6 +12,8 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
+//        jcenter()
+
 
     }
 
@@ -21,7 +24,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter()
+//        jcenter()
         maven { url = uri("https://www.jitpack.io") }
         maven { url = uri("https://s01.oss.sonatype.org/content/groups/public") }
     }
@@ -29,3 +32,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "WiniyNews"
 include(":app")
+include(":ANRMonitor")
+include(":Stutter_monitor")

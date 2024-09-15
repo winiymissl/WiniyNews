@@ -6,11 +6,6 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import com.hjq.toast.Toaster
-import skin.support.SkinCompatManager
-import skin.support.app.SkinAppCompatViewInflater
-import skin.support.app.SkinCardViewInflater
-import skin.support.constraint.app.SkinConstraintViewInflater
-import skin.support.design.app.SkinMaterialViewInflater
 import kotlin.properties.Delegates
 
 

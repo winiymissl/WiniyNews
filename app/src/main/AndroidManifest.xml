@@ -12,17 +12,17 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_app"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/net_work_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/WiniyNews"
         tools:targetApi="31">
-        <service
-            android:name=".service.DownloadService"
-            android:enabled="true"
-            android:exported="true"></service>
+        <!--        <service-->
+        <!--            android:name=".service.DownloadService"-->
+        <!--            android:enabled="true"-->
+        <!--            android:exported="true"></service>-->
 
         <activity
             android:name=".ui.activity.MainActivity"

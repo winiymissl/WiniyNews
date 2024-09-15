@@ -17,6 +17,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -30,6 +31,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlin {
+        kotlinOptions {
+            jvmTarget = "17"
+        }
     }
 
     viewBinding {
@@ -52,12 +58,12 @@ dependencies {
     //toaster
     implementation("com.github.getActivity:Toaster:12.6")
     //android-support-skin
-    implementation("skin.support:skin-support:4.0.5")    // skin-support
-    implementation("skin.support:skin-support-appcompat:4.0.5")     // skin-support 基础控件支持
-    implementation("skin.support:skin-support-design:4.0.5")            // skin-support-design material design 控件支持[可选]
-    implementation("skin.support:skin-support-cardview:4.0.5")          // skin-support-cardview CardView 控件支持[可选]
-    implementation("skin.support:skin-support-constraint-layout:4.0.5") // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
-    implementation("skin.support:skin-support-appcompat:4.0.5")     // skin-support 基础控件支持
+//    implementation("skin.support:skin-support:4.0.5")    // skin-support
+//    implementation("skin.support:skin-support-appcompat:4.0.5")     // skin-support 基础控件支持
+//    implementation("skin.support:skin-support-design:4.0.5")            // skin-support-design material design 控件支持[可选]
+//    implementation("skin.support:skin-support-cardview:4.0.5")          // skin-support-cardview CardView 控件支持[可选]
+//    implementation("skin.support:skin-support-constraint-layout:4.0.5") // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
+//    implementation("skin.support:skin-support-appcompat:4.0.5")     // skin-support 基础控件支持
     //okhttp
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     //recyclerviewAnimation
@@ -86,7 +92,7 @@ dependencies {
     //easyPermission
     implementation("pub.devrel:easypermissions:3.0.0")
     //leakCanary
-    //debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
+//    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
