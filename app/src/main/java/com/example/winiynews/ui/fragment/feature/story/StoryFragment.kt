@@ -2,6 +2,7 @@ package com.example.winiynews.ui.fragment.feature.story
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +74,7 @@ class StoryFragment : BaseFragment(), StoryContract.View {
         val adapter = StoryCategoryRecyclerviewAdapter(object :
             StoryCategoryRecyclerviewAdapter.OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
+
                 NavHostFragment.findNavController(this@StoryFragment)
                     .navigate(R.id.storyListFragment, Bundle().apply {
                         putString("typeId", data.data[position].type_id.toString())

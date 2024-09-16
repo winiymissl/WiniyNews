@@ -3,8 +3,16 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
-}
+    id("com.tencent.matrix-plugin")
 
+}
+matrix {
+    trace {
+        setEnable(true)
+        baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
+        blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
+    }
+}
 android {
     namespace = "com.example.winiynews"
     compileSdk = 34
@@ -37,7 +45,58 @@ android {
         enable = true
     }
 }
+
 dependencies {
+    //matrix
+    val MATRIX_VERSION = "2.1.0"
+    implementation(
+        group = "com.tencent.matrix",
+        name = "matrix-android-lib",
+        version = MATRIX_VERSION,
+    )
+
+    implementation(
+        group = "com.tencent.matrix",
+        name = "matrix-android-commons",
+        version = MATRIX_VERSION,
+    )
+    implementation(
+        group = "com.tencent.matrix",
+        name = "matrix-trace-canary",
+        version = MATRIX_VERSION,
+    )
+    implementation(
+        group = "com.tencent.matrix",
+        name = "matrix-resource-canary-android",
+        version = MATRIX_VERSION,
+    )
+    implementation(
+        group = "com.tencent.matrix",
+        name = "matrix-resource-canary-common",
+        version = MATRIX_VERSION,
+    )
+    implementation(
+        group = "com.tencent.matrix",
+        name = "matrix-io-canary",
+        version = MATRIX_VERSION,
+    )
+    implementation(
+        group = "com.tencent.matrix",
+        name = "matrix-sqlite-lint-android-sdk",
+        version = MATRIX_VERSION,
+    )
+    implementation(
+        group = "com.tencent.matrix",
+        name = "matrix-battery-canary",
+        version = MATRIX_VERSION,
+    )
+    implementation(
+        group = "com.tencent.matrix",
+        name = "matrix-hooks",
+        version = MATRIX_VERSION,
+    )
+
+    //multiplestatusview
     implementation(project(":lib_multiplestatusview"))
     //二级联动列表
     implementation("com.kunminx.linkage:linkage-recyclerview:2.7.0")
@@ -95,4 +154,5 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

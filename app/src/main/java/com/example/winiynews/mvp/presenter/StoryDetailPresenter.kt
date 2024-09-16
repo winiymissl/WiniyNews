@@ -1,5 +1,6 @@
 package com.example.winiynews.mvp.presenter
 
+import android.util.Log
 import com.example.winiynews.base.BasePresenter
 import com.example.winiynews.http.exception.ExceptionHandle
 import com.example.winiynews.mvp.contract.StoryDetailContract
@@ -23,7 +24,11 @@ class StoryDetailPresenter : BasePresenter<StoryDetailContract.View>(),
 
     override suspend fun requestStoryDetailData(storyId: String) {
         checkViewAttached()
-        mRootView?.showLoading()
+        try {
+            mRootView?.showLoading()
+        } catch (e: Exception) {
+            Log.d("这个世界是一个bug", e.toString())
+        }
         model.getStoryDetailData(storyId).flowOn(Dispatchers.IO).catch {
             try {
                 withContext(Dispatchers.Main) {

@@ -1,6 +1,7 @@
 package com.example.winiynews.ui.fragment.feature.story
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,6 @@ class StoryDetailFragment : BaseFragment(), StoryDetailContract.View {
     }
 
     override fun initView() {
-        Logger.d("StoryDetailFragment")
         mPresenter.attachView(this)
         /**
          * 输入到fragment的参数
