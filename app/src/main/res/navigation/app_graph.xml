@@ -8,9 +8,10 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.winiynews.ui.fragment.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_lifeFragment"
+
             app:destination="@id/lifeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_idCardIdentifyFragment"
@@ -48,7 +49,7 @@
     <fragment
         android:id="@+id/foodHeatFragment"
         android:name="com.example.winiynews.ui.fragment.feature.FoodHeatFragment"
-        android:label="FoodHeatFragment" >
+        android:label="FoodHeatFragment">
         <action
             android:id="@+id/action_foodHeatFragment_to_foodHeatDetailBottomSheet"
             app:destination="@id/foodHeatDetailBottomSheet" />
@@ -60,7 +61,7 @@
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.winiynews.ui.fragment.feature.recipe.RecipeFragment"
-        android:label="RecipeFragment" >
+        android:label="RecipeFragment">
         <action
             android:id="@+id/action_recipeFragment_to_ingredientBottomSheet"
             app:destination="@id/ingredientBottomSheet" />
@@ -75,9 +76,10 @@
     <fragment
         android:id="@+id/storyFragment"
         android:name="com.example.winiynews.ui.fragment.feature.story.StoryFragment"
-        android:label="StoryFragment" >
+        android:label="StoryFragment">
         <action
             android:id="@+id/action_storyFragment_to_storyListFragment"
+
             app:destination="@id/storyListFragment" />
     </fragment>
     <fragment
@@ -87,10 +89,11 @@
     <fragment
         android:id="@+id/storyListFragment"
         android:name="com.example.winiynews.ui.fragment.feature.story.StoryListFragment"
-        android:label="StoryListFragment" >
+        android:label="StoryListFragment">
         <action
             android:id="@+id/action_storyListFragment_to_storyDetailFragment"
-            app:destination="@id/storyDetailFragment" />
+            app:destination="@id/storyDetailFragment"
+ />
     </fragment>
     <fragment
         android:id="@+id/storyDetailFragment"

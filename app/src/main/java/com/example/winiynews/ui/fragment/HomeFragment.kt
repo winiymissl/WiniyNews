@@ -107,7 +107,6 @@ class HomeFragment : Fragment() {
          */
         adapter.submitList(list)
         binding.recyclerviewLife.apply {
-
             /**
              * 滑动
              * */

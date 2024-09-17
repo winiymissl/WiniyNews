@@ -32,12 +32,8 @@ class MainActivity : AppCompatActivity() {
         //        Glide.with(this).load(R.drawable.ic_home_beauty)
         //            .apply(RequestOptions.bitmapTransform(BlurTransformation(10, 1)))
         //            .into(binding.imageView)
-
     }
 
-//    override fun getDelegate(): AppCompatDelegate {
-//        return SkinAppCompatDelegateImpl.get(this, this);
-//    }
 
     fun fullScreen() {
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)

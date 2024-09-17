@@ -16,6 +16,7 @@ import com.example.winiynews.databinding.FragmentStoryListBinding
 import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.StoryListContract
 import com.example.winiynews.mvp.presenter.StoryListPresenter
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,6 +35,10 @@ class StoryListFragment : BaseFragment(), StoryListContract.View {
     private var rootView: View? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
 //        sharedElementEnterTransition = MaterialContainerTransform().apply {
 //            duration = 400
 //            scrimColor = Color.TRANSPARENT
@@ -42,9 +47,7 @@ class StoryListFragment : BaseFragment(), StoryListContract.View {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_story_list, container, false)
@@ -120,6 +123,7 @@ class StoryListFragment : BaseFragment(), StoryListContract.View {
     override fun dismissLoading() {
 
     }
+
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.detachView()

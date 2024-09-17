@@ -22,7 +22,9 @@ class StoryListPresenter : StoryListContract.Presenter, BasePresenter<StoryListC
 
     override suspend fun requestStoryListData(typeId: String, page: Int) {
         checkViewAttached()
-        mRootView?.showLoading()
+        withContext(Dispatchers.Main) {
+            mRootView?.showLoading()
+        }
         model.getListStory(typeId, page).flowOn(Dispatchers.IO).catch {
             try {
                 withContext(Dispatchers.Main) {
@@ -36,22 +38,24 @@ class StoryListPresenter : StoryListContract.Presenter, BasePresenter<StoryListC
                 Logger.d(e)
             }
         }.collect {
-            try {
-                mRootView?.dismissLoading()
-                if (it.data != null) {
-                    Logger.d(it)
+            withContext(Dispatchers.Main) {
+                try {
+                    mRootView?.dismissLoading()
+                    if (it.data != null) {
+                        Logger.d(it)
 
-                    mRootView?.setStoryListData(it)
-                } else if (it.code == 101) {
+                        mRootView?.setStoryListData(it)
+                    } else if (it.code == 101) {
+                        mRootView?.showError(
+                            "加载失败", ExceptionHandle.errorCode
+                        )
+                    }
+                } catch (e: Exception) {
+                    Logger.d(e)
                     mRootView?.showError(
-                        "加载失败", ExceptionHandle.errorCode
+                        ExceptionHandle.handleException(e), ExceptionHandle.errorCode
                     )
                 }
-            } catch (e: Exception) {
-                Logger.d(e)
-                mRootView?.showError(
-                    ExceptionHandle.handleException(e), ExceptionHandle.errorCode
-                )
             }
         }
     }

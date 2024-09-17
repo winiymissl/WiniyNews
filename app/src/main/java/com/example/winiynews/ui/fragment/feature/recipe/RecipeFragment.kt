@@ -23,6 +23,7 @@ import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.RecipeContract
 import com.example.winiynews.mvp.presenter.RecipePresenter
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 import com.hjq.toast.Toaster
 import com.orhanobut.logger.Logger
 import com.scwang.smart.refresh.footer.ClassicsFooter
@@ -44,6 +45,8 @@ class RecipeFragment : BaseFragment(), RecipeContract.View {
     private lateinit var adapterRecyclerview: RecipeSearchRecyclerviewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
     }
 
     override fun onCreateView(

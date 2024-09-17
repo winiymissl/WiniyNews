@@ -18,6 +18,7 @@ import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.StoryContract
 import com.example.winiynews.mvp.presenter.StoryPresenter
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 
 /**
  * @Author winiymissl
@@ -35,6 +36,8 @@ class StoryFragment : BaseFragment(), StoryContract.View {
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
         }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
     }
 
     override fun onCreateView(
@@ -105,10 +108,13 @@ class StoryFragment : BaseFragment(), StoryContract.View {
     }
 
     override fun showLoading() {
+        mLayoutStatusView?.showLoading()
     }
 
     override fun dismissLoading() {
+
     }
+
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.detachView()

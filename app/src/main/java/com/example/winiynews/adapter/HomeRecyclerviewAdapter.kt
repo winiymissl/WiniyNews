@@ -53,6 +53,7 @@ class HomeRecyclerviewAdapter(val mListener: OnItemClickListener) :
         fun onItemClick(view: View?, position: Int)
         fun onLongItemClick(view: View?, position: Int): Boolean
     }
+
     fun submitList(list: List<ItemHome>) {
         this.list = list
     }
@@ -71,7 +72,6 @@ class HomeRecyclerviewAdapter(val mListener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindTo(item: ItemHome, id: Int): Unit {
             ViewCompat.setTransitionName(binding.constraintHomeItem, "shared_element_container_$id")
-
             binding.imageViewHome.setImageResource(item.image)
             binding.textviewHome.setText(item.name)
         }

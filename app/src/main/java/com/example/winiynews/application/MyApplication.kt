@@ -28,7 +28,6 @@ class MyApplication : Application() {
 
         var context: Context by Delegates.notNull()
             private set
-
     }
 
     override fun onCreate() {
@@ -48,15 +47,12 @@ class MyApplication : Application() {
 
         val formatStrategy =
             PrettyFormatStrategy.newBuilder().showThreadInfo(false)  // 隐藏线程信息 默认：显示
-                .methodCount(0)         // 决定打印多少行（每一行代表一个方法）默认：2
+                .methodCount(2)         // 决定打印多少行（每一行代表一个方法）默认：2
                 .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
-                .tag("hao_zz")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .tag("这个世界是一个bug")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
                 .build()
-        Logger.addLogAdapter(object : AndroidLogAdapter(formatStrategy) {
-            override fun isLoggable(priority: Int, tag: String?): Boolean {
-                return BuildConfig.DEBUG
-            }
-        })
+
+        Logger.addLogAdapter(AndroidLogAdapter(formatStrategy))
     }
 
 

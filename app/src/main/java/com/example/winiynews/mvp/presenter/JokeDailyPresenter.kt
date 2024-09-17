@@ -8,6 +8,7 @@ import com.orhanobut.logger.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 /**
  * @Author winiymissl
@@ -18,12 +19,17 @@ class JokeDailyPresenter : BasePresenter<JokeContract.View>(), JokeContract.Pres
     private val model: JokeModel by lazy { JokeModel() }
     override suspend fun requestSentenceData() {
         checkViewAttached()
-        mRootView?.showLoading()
+        withContext(Dispatchers.Main) {
+            mRootView?.showLoading()
+        }
+
         model.getSentenceData().flowOn(Dispatchers.IO).catch {
-            mRootView?.showError(
-                ExceptionHandle.handleException(it),
-                ExceptionHandle.errorCode
-            )
+            withContext(Dispatchers.Main) {
+                mRootView?.showError(
+                    ExceptionHandle.handleException(it),
+                    ExceptionHandle.errorCode
+                )
+            }
         }.collect {
             try {
                 mRootView?.setSentenceData(it)

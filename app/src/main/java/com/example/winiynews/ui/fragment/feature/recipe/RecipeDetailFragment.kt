@@ -14,6 +14,7 @@ import com.example.winiynews.databinding.FragmentRecipeDetailBinding
 import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.RecipeDetailContract
 import com.example.winiynews.mvp.presenter.RecipeDetailPresenter
+import com.google.android.material.transition.MaterialSharedAxis
 import com.orhanobut.logger.Logger
 
 /**
@@ -31,6 +32,12 @@ class RecipeDetailFragment : BaseFragment(), RecipeDetailContract.View {
         val view: View = inflater.inflate(getLayoutId(), container, false)
         binding = FragmentRecipeDetailBinding.bind(view)
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_recipe_detail

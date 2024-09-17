@@ -24,10 +24,8 @@ class StoryDetailPresenter : BasePresenter<StoryDetailContract.View>(),
 
     override suspend fun requestStoryDetailData(storyId: String) {
         checkViewAttached()
-        try {
+        withContext(Dispatchers.Main) {
             mRootView?.showLoading()
-        } catch (e: Exception) {
-            Log.d("这个世界是一个bug", e.toString())
         }
         model.getStoryDetailData(storyId).flowOn(Dispatchers.IO).catch {
             try {
@@ -42,22 +40,29 @@ class StoryDetailPresenter : BasePresenter<StoryDetailContract.View>(),
                 Logger.d(e)
             }
         }.collect {
-            try {
-                mRootView?.dismissLoading()
-                if (it.data != null) {
+            withContext(Dispatchers.Main) {
+                try {
+                    mRootView?.dismissLoading()
+                    if (it.data != null) {
+                        Logger.d(it)
+                        mRootView?.setStoryDetailData(it)
+                    } else if (it.code == 101) {
+                        mRootView?.showError(
+                            "数据为空", ExceptionHandle.errorCode
+                        )
+                    }
+                } catch (e: Exception) {
                     Logger.d(it)
-                    mRootView?.setStoryDetailData(it)
-                } else if (it.code == 101) {
-                    mRootView?.showError(
-                        "数据为空", ExceptionHandle.errorCode
-                    )
+                    withContext(Dispatchers.Main) {
+                        mRootView?.showError(
+                            ExceptionHandle.handleException(e), ExceptionHandle.errorCode
+                        )
+                    }
+
                 }
-            } catch (e: Exception) {
-                Logger.d(e)
-                mRootView?.showError(
-                    ExceptionHandle.handleException(e), ExceptionHandle.errorCode
-                )
             }
+
+
         }
     }
 }

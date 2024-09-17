@@ -13,6 +13,7 @@ import com.example.winiynews.databinding.FragmentStoryDetailBinding
 import com.example.winiynews.http.exception.ErrorStatus
 import com.example.winiynews.mvp.contract.StoryDetailContract
 import com.example.winiynews.mvp.presenter.StoryDetailPresenter
+import com.google.android.material.transition.MaterialSharedAxis
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,11 @@ class StoryDetailFragment : BaseFragment(), StoryDetailContract.View {
         FragmentStoryDetailBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
